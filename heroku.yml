@@ -1,4 +1,7 @@
 setup:
   config: {}
 build:
-  languages: []
+  languages: 
+    - python
+run:
+  web: python manage.py runserver
