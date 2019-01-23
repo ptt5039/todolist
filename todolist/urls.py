@@ -25,7 +25,7 @@ from todos.api.routers import router
 from rest_framework.authtoken.views import ObtainAuthToken
 
 urlpatterns = [
-    path('', HomePageView.as_view(), name='index'),
+    path('', include('todos.urls')),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api/auth/', ObtainAuthToken.as_view())
