@@ -18,14 +18,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from todos.views import IndexView
+from todos.views import HomePageView
 
 
 from todos.api.routers import router
 from rest_framework.authtoken.views import ObtainAuthToken
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
+    path('', HomePageView.as_view(), name='index'),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api/auth/', ObtainAuthToken.as_view())
