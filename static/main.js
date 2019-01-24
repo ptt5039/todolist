@@ -168,6 +168,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nav_nav_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./nav/nav.component */ "./src/app/nav/nav.component.ts");
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./todo.service */ "./src/app/todo.service.ts");
+/* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
+
 
 
 
@@ -206,6 +208,7 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]
             ],
             providers: [
+                _authorization_guard__WEBPACK_IMPORTED_MODULE_17__["AuthorizationGuard"],
                 _app_service__WEBPACK_IMPORTED_MODULE_10__["AppService"],
                 _user__WEBPACK_IMPORTED_MODULE_11__["User"],
                 _user_service__WEBPACK_IMPORTED_MODULE_13__["UserService"],
@@ -276,10 +279,9 @@ var AuthorizationGuard = /** @class */ (function () {
     }
     AuthorizationGuard.prototype.canActivate = function (next, state) {
         if (this.appUser.isLoggedIn)
-            return true;
+            return this.appUser.isLoggedIn;
         else
             this.router.navigate(['']);
-        return false;
     };
     AuthorizationGuard = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -449,7 +451,6 @@ var LoginComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-login',
             template: __webpack_require__(/*! ./login.component.html */ "./src/app/login/login.component.html"),
-            providers: [],
             styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/login/login.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
@@ -612,7 +613,6 @@ var MainComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-main',
             template: __webpack_require__(/*! ./main.component.html */ "./src/app/main/main.component.html"),
-            providers: [],
             styles: [__webpack_require__(/*! ./main.component.css */ "./src/app/main/main.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_todo_service__WEBPACK_IMPORTED_MODULE_5__["TodoService"],
@@ -645,7 +645,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-12\">\n    <h1 style =\"text-align:center;\">Welcome, {{user.username}}!</h1>\n    <button class=\"btn btn-default\" (click) =\"profile()\">Profile</button>\n    <button style=\"float:right\" class=\"btn btn-default\" (click) =\"logout()\">Logout</button>\n</div>\n<!-- <nav class=\"navbar navbar-inverse\">\n    <div class=\"container-fluid\">\n      <div class=\"navbar-header\">\n        <a class=\"navbar-brand\">TODO</a>\n      </div>\n      <ul class=\"nav navbar-nav\">\n        <li><a href=\"#\">Home</a></li>\n        <li><a (click) =\"profile()\">Profile</a></li>\n      </ul>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a>Welcome, {{user.firstName}}!</a></li>\n        <li><a (click) =\"logout()\"><span class=\"glyphicon glyphicon-log-out\"></span> Logout</a></li>\n      </ul>\n    </div>\n  </nav> -->"
+module.exports = "<div class=\"col-12\">\n    <h1 style =\"text-align:center;\">Welcome, {{user.username}}!</h1>\n    <button class=\"btn btn-default\" (click) =\"profile()\">Profile</button>\n    <button style=\"float:right\" class=\"btn btn-default\" (click) =\"logout()\">Logout</button>\n</div>"
 
 /***/ }),
 
@@ -933,17 +933,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
-/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
-
 
 
 
 
 var TodoService = /** @class */ (function () {
-    function TodoService(http, user, appUser) {
+    function TodoService(http, user) {
         this.http = http;
         this.user = user;
-        this.appUser = appUser;
         this.baseUrl = 'http://127.0.0.1:8000';
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': 'Token ebd1b536f6acef41d13946aa7605f9c6bc03ce35' });
         // this.appUser.getCurrentToken();
@@ -978,8 +975,7 @@ var TodoService = /** @class */ (function () {
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
-            _user__WEBPACK_IMPORTED_MODULE_3__["User"],
-            _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"]])
+            _user__WEBPACK_IMPORTED_MODULE_3__["User"]])
     ], TodoService);
     return TodoService;
 }());

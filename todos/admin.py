@@ -7,4 +7,4 @@ class TodoAdmin(admin.ModelAdmin):
 
 admin.site.register(Todo, TodoAdmin)
 
-TokenAdmin.raw_id_fiels = ('user',)
+TokenAdmin.raw_id_fields = ('user',)
