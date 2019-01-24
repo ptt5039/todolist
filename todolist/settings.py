@@ -27,7 +27,7 @@ SECRET_KEY = 'm0uh1*_w$9te5e#@pv(f7_jpdn(2$mn@lol#q206-8bapv$t^='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['todolist-todolist.7e14.starter-us-west-2.openshiftapps.com']
 
 
 # Application definition
