@@ -27,7 +27,7 @@ SECRET_KEY = 'm0uh1*_w$9te5e#@pv(f7_jpdn(2$mn@lol#q206-8bapv$t^='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['todolist-todolist.7e14.starter-us-west-2.openshiftapps.com']
+ALLOWED_HOSTS = ['todolist-todolist.7e14.starter-us-west-2.openshiftapps.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -63,7 +63,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     '127.0.0.1:8000',
     'localhost:4200',
-    'http://0.0.0.0:8080',
+    '0.0.0.0:8080',
 )
 
 ROOT_URLCONF = 'todolist.urls'
@@ -160,7 +160,7 @@ STATICFILES_FINDERS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(PUBLIC_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
