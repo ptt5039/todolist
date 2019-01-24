@@ -514,7 +514,7 @@ var MainComponent = /** @class */ (function () {
         this.appUser = appUser;
         this.user = user;
         this.router = router;
-        this.checkIcon = 'http://0.0.0.0:8080/media/check.png';
+        this.checkIcon = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com/media/check.png';
         if (sessionStorage.getItem('currentUser') != null) {
             this.appUser.getCurrentUser();
             this.appUser.setLoggedIn(true);
@@ -941,7 +941,7 @@ var TodoService = /** @class */ (function () {
     function TodoService(http, user) {
         this.http = http;
         this.user = user;
-        this.baseUrl = 'http://0.0.0.0:8080';
+        this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': 'Token ebd1b536f6acef41d13946aa7605f9c6bc03ce35' });
         // this.appUser.getCurrentToken();
         // console.log(this.HttpHeaders.get('Authorization'))
@@ -1007,7 +1007,7 @@ var UserService = /** @class */ (function () {
         this.http = http;
         this.user = user;
         this.loggedInStatus = false;
-        this.baseUrl = 'http://0.0.0.0:8080';
+        this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': 'Token ebd1b536f6acef41d13946aa7605f9c6bc03ce35' });
     }
     UserService.prototype.setLoggedIn = function (value) {

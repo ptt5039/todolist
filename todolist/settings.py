@@ -63,7 +63,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     '127.0.0.1:8000',
     'localhost:4200',
-    '0.0.0.0:8080',
+    'http://0.0.0.0:8080',
 )
 
 ROOT_URLCONF = 'todolist.urls'
