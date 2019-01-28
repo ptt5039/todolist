@@ -28,7 +28,7 @@ urlpatterns = [
     path('', include('todos.urls')),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api/auth/', ObtainAuthToken.as_view())
+    path('api/auth/', ObtainAuthToken.as_view()),
 ]
 
 if settings.DEBUG:
