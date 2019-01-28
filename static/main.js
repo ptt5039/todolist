@@ -156,26 +156,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _header_header_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./header/header.component */ "./src/app/header/header.component.ts");
-/* harmony import */ var _main_main_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./main/main.component */ "./src/app/main/main.component.ts");
-/* harmony import */ var _app_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./app.service */ "./src/app/app.service.ts");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
-/* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
-/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
-/* harmony import */ var _nav_nav_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./nav/nav.component */ "./src/app/nav/nav.component.ts");
-/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
-/* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./todo.service */ "./src/app/todo.service.ts");
-/* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _header_header_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./header/header.component */ "./src/app/header/header.component.ts");
+/* harmony import */ var _main_main_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./main/main.component */ "./src/app/main/main.component.ts");
+/* harmony import */ var _app_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app.service */ "./src/app/app.service.ts");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
+/* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
+/* harmony import */ var _nav_nav_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./nav/nav.component */ "./src/app/nav/nav.component.ts");
+/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
+/* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./todo.service */ "./src/app/todo.service.ts");
+/* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
 
 
 
 
-
+//import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 
@@ -196,30 +195,29 @@ var AppModule = /** @class */ (function () {
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-                _login_login_component__WEBPACK_IMPORTED_MODULE_8__["LoginComponent"],
-                _header_header_component__WEBPACK_IMPORTED_MODULE_9__["HeaderComponent"],
-                _main_main_component__WEBPACK_IMPORTED_MODULE_10__["MainComponent"],
-                _profile_profile_component__WEBPACK_IMPORTED_MODULE_13__["ProfileComponent"],
-                _nav_nav_component__WEBPACK_IMPORTED_MODULE_15__["NavComponent"],
-                _register_register_component__WEBPACK_IMPORTED_MODULE_16__["RegisterComponent"],
+                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+                _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"],
+                _header_header_component__WEBPACK_IMPORTED_MODULE_8__["HeaderComponent"],
+                _main_main_component__WEBPACK_IMPORTED_MODULE_9__["MainComponent"],
+                _profile_profile_component__WEBPACK_IMPORTED_MODULE_12__["ProfileComponent"],
+                _nav_nav_component__WEBPACK_IMPORTED_MODULE_14__["NavComponent"],
+                _register_register_component__WEBPACK_IMPORTED_MODULE_15__["RegisterComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]
             ],
             providers: [
-                _authorization_guard__WEBPACK_IMPORTED_MODULE_18__["AuthorizationGuard"],
-                _app_service__WEBPACK_IMPORTED_MODULE_11__["AppService"],
-                _user__WEBPACK_IMPORTED_MODULE_12__["User"],
-                _user_service__WEBPACK_IMPORTED_MODULE_14__["UserService"],
-                _todo_service__WEBPACK_IMPORTED_MODULE_17__["TodoService"],
-                { provide: _angular_common__WEBPACK_IMPORTED_MODULE_4__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_4__["HashLocationStrategy"] },
+                _authorization_guard__WEBPACK_IMPORTED_MODULE_17__["AuthorizationGuard"],
+                _app_service__WEBPACK_IMPORTED_MODULE_10__["AppService"],
+                _user__WEBPACK_IMPORTED_MODULE_11__["User"],
+                _user_service__WEBPACK_IMPORTED_MODULE_13__["UserService"],
+                _todo_service__WEBPACK_IMPORTED_MODULE_16__["TodoService"],
             ],
             bootstrap: [
-                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]
             ],
         })
     ], AppModule);
