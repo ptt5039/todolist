@@ -7,9 +7,6 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
-
-# Create your models here.
-
 class Todo(models.Model):
     title = models.CharField(blank=True, max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

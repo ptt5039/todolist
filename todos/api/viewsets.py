@@ -10,12 +10,6 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 import django_filters.rest_framework
-from rest_framework import generics
-from rest_framework.status import (
-    HTTP_400_BAD_REQUEST,
-    HTTP_404_NOT_FOUND,
-    HTTP_200_OK
-)
 
 class TodoFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr='icontains')

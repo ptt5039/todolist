@@ -41,6 +41,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
 /* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
+/* harmony import */ var _help_help_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./help/help.component */ "./src/app/help/help.component.ts");
+
 
 
 
@@ -53,7 +55,6 @@ var routes = [
     {
         path: '',
         component: _login_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"],
-        pathMatch: 'full'
     },
     {
         path: 'register',
@@ -68,6 +69,10 @@ var routes = [
         path: 'profile',
         component: _profile_profile_component__WEBPACK_IMPORTED_MODULE_5__["ProfileComponent"],
         canActivate: [_authorization_guard__WEBPACK_IMPORTED_MODULE_7__["AuthorizationGuard"]]
+    },
+    {
+        path: 'help',
+        component: _help_help_component__WEBPACK_IMPORTED_MODULE_8__["HelpComponent"],
     },
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -160,16 +165,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _header_header_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./header/header.component */ "./src/app/header/header.component.ts");
-/* harmony import */ var _main_main_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./main/main.component */ "./src/app/main/main.component.ts");
-/* harmony import */ var _app_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app.service */ "./src/app/app.service.ts");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
-/* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
-/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
-/* harmony import */ var _nav_nav_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./nav/nav.component */ "./src/app/nav/nav.component.ts");
-/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
-/* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./todo.service */ "./src/app/todo.service.ts");
-/* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
+/* harmony import */ var _main_main_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./main/main.component */ "./src/app/main/main.component.ts");
+/* harmony import */ var _app_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app.service */ "./src/app/app.service.ts");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
+/* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
+/* harmony import */ var _nav_nav_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./nav/nav.component */ "./src/app/nav/nav.component.ts");
+/* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
+/* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./todo.service */ "./src/app/todo.service.ts");
+/* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
+/* harmony import */ var _help_help_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./help/help.component */ "./src/app/help/help.component.ts");
 
 
 
@@ -197,11 +202,11 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"],
-                _header_header_component__WEBPACK_IMPORTED_MODULE_8__["HeaderComponent"],
-                _main_main_component__WEBPACK_IMPORTED_MODULE_9__["MainComponent"],
-                _profile_profile_component__WEBPACK_IMPORTED_MODULE_12__["ProfileComponent"],
-                _nav_nav_component__WEBPACK_IMPORTED_MODULE_14__["NavComponent"],
-                _register_register_component__WEBPACK_IMPORTED_MODULE_15__["RegisterComponent"],
+                _main_main_component__WEBPACK_IMPORTED_MODULE_8__["MainComponent"],
+                _profile_profile_component__WEBPACK_IMPORTED_MODULE_11__["ProfileComponent"],
+                _nav_nav_component__WEBPACK_IMPORTED_MODULE_13__["NavComponent"],
+                _register_register_component__WEBPACK_IMPORTED_MODULE_14__["RegisterComponent"],
+                _help_help_component__WEBPACK_IMPORTED_MODULE_17__["HelpComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
@@ -210,11 +215,11 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]
             ],
             providers: [
-                _authorization_guard__WEBPACK_IMPORTED_MODULE_17__["AuthorizationGuard"],
-                _app_service__WEBPACK_IMPORTED_MODULE_10__["AppService"],
-                _user__WEBPACK_IMPORTED_MODULE_11__["User"],
-                _user_service__WEBPACK_IMPORTED_MODULE_13__["UserService"],
-                _todo_service__WEBPACK_IMPORTED_MODULE_16__["TodoService"],
+                _authorization_guard__WEBPACK_IMPORTED_MODULE_16__["AuthorizationGuard"],
+                _app_service__WEBPACK_IMPORTED_MODULE_9__["AppService"],
+                _user__WEBPACK_IMPORTED_MODULE_10__["User"],
+                _user_service__WEBPACK_IMPORTED_MODULE_12__["UserService"],
+                _todo_service__WEBPACK_IMPORTED_MODULE_15__["TodoService"],
             ],
             bootstrap: [
                 _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]
@@ -299,56 +304,62 @@ var AuthorizationGuard = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/header/header.component.css":
-/*!*********************************************!*\
-  !*** ./src/app/header/header.component.css ***!
-  \*********************************************/
+/***/ "./src/app/help/help.component.css":
+/*!*****************************************!*\
+  !*** ./src/app/help/help.component.css ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2hlYWRlci9oZWFkZXIuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2hlbHAvaGVscC5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
-/***/ "./src/app/header/header.component.html":
-/*!**********************************************!*\
-  !*** ./src/app/header/header.component.html ***!
-  \**********************************************/
+/***/ "./src/app/help/help.component.html":
+/*!******************************************!*\
+  !*** ./src/app/help/help.component.html ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-12\">\n        <h2 style=\"text-align:center;\">List of Todo items</h2>\n    </div>\n  </div>\n"
+module.exports = "<h1>Assistance Page</h1>\n<p>1. To create a task, type in what your task is in the \"What needs to be done?\" box and press enter.</p>\n<p>2. To edit a task, double click the task, and type what you need to change in the text box that was appeared and press enter.</p>\n<p>3. To mark the task that is completed, click on the circle on the right of the task.</p>\n<p>4. To delete the task, click on the red X on the right of the task. The X will appear when you hover the cursor over it.</p>\n<p>5. To show the Creator of the task, click once on the task and the Creator will appear on the bottom of the page.</p>\n<p>6. To change the profile, click on the Profile button.</p>\n<p>Thank you!</p>\n<button (click) = \"goBack()\">Go Back</button>"
 
 /***/ }),
 
-/***/ "./src/app/header/header.component.ts":
-/*!********************************************!*\
-  !*** ./src/app/header/header.component.ts ***!
-  \********************************************/
-/*! exports provided: HeaderComponent */
+/***/ "./src/app/help/help.component.ts":
+/*!****************************************!*\
+  !*** ./src/app/help/help.component.ts ***!
+  \****************************************/
+/*! exports provided: HelpComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderComponent", function() { return HeaderComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HelpComponent", function() { return HelpComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 
 
-var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent() {
+
+var HelpComponent = /** @class */ (function () {
+    function HelpComponent(router) {
+        this.router = router;
     }
-    HeaderComponent.prototype.ngOnInit = function () {
+    HelpComponent.prototype.ngOnInit = function () {
     };
-    HeaderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    HelpComponent.prototype.goBack = function () {
+        this.router.navigate(['main']);
+    };
+    HelpComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-header',
-            template: __webpack_require__(/*! ./header.component.html */ "./src/app/header/header.component.html"),
-            styles: [__webpack_require__(/*! ./header.component.css */ "./src/app/header/header.component.css")]
+            selector: 'app-help',
+            template: __webpack_require__(/*! ./help.component.html */ "./src/app/help/help.component.html"),
+            styles: [__webpack_require__(/*! ./help.component.css */ "./src/app/help/help.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], HeaderComponent);
-    return HeaderComponent;
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], HelpComponent);
+    return HelpComponent;
 }());
 
 
@@ -373,7 +384,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Login</h1>\n<input [(ngModel)]=\"input.username\" type=\"text\" placeholder=\"Username\"><br>\n<input [(ngModel)]=\"input.password\" type=\"password\" placeholder=\"Password\" (keydown.enter)=\"onLogin()\"><br>\n<a class=\"btn btn-link\" (click)=\"register()\">Register User</a><br>\n<button (click)=\"onLogin()\">Login</button>\n\n"
+module.exports = "<div class=\"sign-in-wrapper\">\n    <form class=\"frm\">\n        <h1>Login</h1>\n        <input [(ngModel)]=\"input.username\" name=\"username\"\n            type=\"text\" placeholder=\"Username\">\n        <input [(ngModel)]=\"input.password\" name=\"password\"\n            type=\"password\" placeholder=\"Password\" (keydown.enter)=\"onLogin()\">\n        <a class=\"btn btn-link\" (click)=\"register()\">Register User</a>\n        <button (click)=\"onLogin()\">Login</button>\n    </form>\n</div>\n"
 
 /***/ }),
 
@@ -429,7 +440,6 @@ var LoginComponent = /** @class */ (function () {
         var _this = this;
         this.appUser.loginUser(this.input).subscribe(function (response) {
             _this.user.username = _this.input.username;
-            console.log(response);
             _this.token.push(response);
             sessionStorage.setItem('token', JSON.stringify(_this.token));
             _this.appUser.setLoggedIn(true);
@@ -473,7 +483,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21haW4vbWFpbi5jb21wb25lbnQuY3NzIn0= */"
+module.exports = "\r\n\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21haW4vbWFpbi5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -484,7 +494,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-nav></app-nav>\n<app-header></app-header>\n\n<div class=\"row\">\n    <ul>\n        <li *ngFor=\"let todo of todos\">\n          <h3 *ngIf=\"todo.title\" (click)=\"todoClicked(todo)\">{{todo.title}}\n            <img *ngIf=\"todo.is_complete\" [src]=\"checkIcon\" height=\"20px\" width=\"20px\">\n          </h3>\n        </li>  \n    </ul>\n</div>\n\n<div class=\"row\" *ngIf=\"user.isSuperuser\">\n        <div class=\"form-group\">\n            <label for=\"creator\">Creator:</label>\n            <h4>{{username}}</h4>\n        </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"form-group\">\n        <label for=\"title\">What do you want to do?</label>\n        <input type=\"text\" class=\"form-control\" id=\"title\" [(ngModel)]=\"selectedTodo.title\" placeholder=\"Enter todo\">\n    </div>\n</div>\n\n\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.id\" (click)=\"updateTodo()\">Update</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"!selectedTodo.is_complete && selectedTodo.id\" (click)=\"completeTodo()\">Complete</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.is_complete && selectedTodo.id\" (click)=\"inCompleteTodo()\">InComplete</button>\n<button class=\"btn btn-primary mr-2\" *ngIf=\"!selectedTodo.id\" (click)=\"createTodo()\">Create</button>\n<button class=\"btn btn-danger\" *ngIf=\"selectedTodo.id\" (click)=\"deleteTodo()\">Delete</button>"
+module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                <div class=\"view\" >\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n                  \n                    <label (click)=\"todoClicked(todo)\" (dblclick)=\"editTodo(todo)\">\n                        {{todo.title}}</label>\n\n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n                </div>\n                <input class=\"edit\" *ngIf=\"todo.editing\" [value]=\"todo.title\" \n                    #editedTodo (blur)=\"updateTodo(todo, editedTodo.value)\" \n                    (keyup.enter)=\"updateTodo(todo, editedTodo.value)\" \n                    (keyup.escape)=\"cancelEditing(todo)\">\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<div class=\"creator-display\" *ngIf=\"user.isSuperuser\">\n    <div>\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>\n<!-- <div class=\"row\">\n    <ul>\n        <li *ngFor=\"let todo of todos\">\n          <h3 *ngIf=\"todo.title\" (click)=\"todoClicked(todo)\">{{todo.title}}\n            <img *ngIf=\"todo.is_complete\" [src]=\"checkIcon\" height=\"20px\" width=\"20px\">\n          </h3>\n        </li>  \n    </ul>\n</div>\n\n<div class=\"row\" *ngIf=\"user.isSuperuser\">\n    <div class=\"form-group\">\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"form-group\">\n        <label for=\"title\">What do you want to do?</label>\n        <input type=\"text\" class=\"form-control\" id=\"title\" [(ngModel)]=\"selectedTodo.title\" placeholder=\"Enter todo\">\n    </div>\n</div>\n\n\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.id\" (click)=\"updateTodo()\">Update</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"!selectedTodo.is_complete && selectedTodo.id\" (click)=\"completeTodo()\">Complete</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.is_complete && selectedTodo.id\" (click)=\"inCompleteTodo()\">InComplete</button>\n<button class=\"btn btn-primary mr-2\" *ngIf=\"!selectedTodo.id\" (click)=\"createTodo()\">Create</button>\n<button class=\"btn btn-danger\" *ngIf=\"selectedTodo.id\" (click)=\"deleteTodo()\">Delete</button> -->"
 
 /***/ }),
 
@@ -504,6 +514,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../user */ "./src/app/user.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+
 
 
 
@@ -511,23 +523,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var MainComponent = /** @class */ (function () {
-    function MainComponent(todoService, appUser, user, router) {
+    function MainComponent(todoService, appUser, user, router, location) {
         this.todoService = todoService;
         this.appUser = appUser;
         this.user = user;
         this.router = router;
+        this.location = location;
         this.checkIcon = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com/media/check.png';
         if (sessionStorage.getItem('currentUser') != null) {
             this.appUser.getCurrentUser();
             this.appUser.setLoggedIn(true);
             this.getTodos();
-            this.selectedTodo = { title: '' };
+            this.newTodo = { title: '' };
         }
         else {
             this.appUser.setLoggedIn(false);
             this.router.navigate(['']);
         }
     }
+    MainComponent.prototype.cancelEditing = function (todo) {
+        todo.editing = false;
+    };
+    MainComponent.prototype.editTodo = function (todo) {
+        todo.editing = true;
+    };
     MainComponent.prototype.getTodos = function () {
         var _this = this;
         if (this.user.isSuperuser) {
@@ -548,6 +567,7 @@ var MainComponent = /** @class */ (function () {
     MainComponent.prototype.todoClicked = function (todo) {
         var _this = this;
         this.todoService.getTodo(todo.id).subscribe(function (data) {
+            _this.location.go('/main/tasks/' + todo.id + '/');
             _this.selectedTodo = data;
             _this.appUser.getUsername(_this.selectedTodo.user)
                 .subscribe(function (data) {
@@ -557,59 +577,79 @@ var MainComponent = /** @class */ (function () {
             console.log(error);
         });
     };
-    MainComponent.prototype.completeTodo = function () {
+    MainComponent.prototype.toggleCompletion = function (todo) {
+        if (todo.is_complete)
+            this.inCompleteTodo(todo);
+        else
+            this.completeTodo(todo);
+    };
+    MainComponent.prototype.completeTodo = function (todo) {
         var _this = this;
-        this.todoService.completeTodo(this.selectedTodo, true)
+        this.todoService.completeTodo(todo, true)
             .subscribe(function (data) {
             _this.getTodos();
-            _this.selectedTodo = { title: '' };
+            _this.newTodo = { title: '' };
         }, function (error) {
             console.log(error);
         });
     };
-    MainComponent.prototype.inCompleteTodo = function () {
+    MainComponent.prototype.inCompleteTodo = function (todo) {
         var _this = this;
-        this.todoService.completeTodo(this.selectedTodo, false)
+        this.todoService.completeTodo(todo, false)
             .subscribe(function (data) {
             _this.getTodos();
-            _this.selectedTodo = { title: '' };
+            _this.newTodo = { title: '' };
         }, function (error) {
             console.log(error);
         });
     };
-    MainComponent.prototype.updateTodo = function () {
+    MainComponent.prototype.updateTodo = function (todo, editedTitle) {
         var _this = this;
-        this.todoService.updateTodo(this.selectedTodo, this.user.id).subscribe(function (data) {
-            _this.getTodos();
-            _this.selectedTodo = { title: '' };
-        }, function (error) {
-            console.log(error);
-        });
-    };
-    MainComponent.prototype.createTodo = function () {
-        var _this = this;
-        if (this.selectedTodo.title.length < 8) {
-            alert('Please input what you want to do, '
+        todo.editing = false;
+        if (editedTitle.length < 8) {
+            alert('Please input what you want to update to, '
                 + 'it needs to be at least 8 characters');
-            console.log('Minimum length is 8');
         }
         else {
-            this.todoService.createTodo(this.selectedTodo.title, this.user.id).subscribe(function (data) {
-                _this.todos.push(data);
-                _this.selectedTodo = { title: '' };
+            todo.title = editedTitle;
+            this.todoService.updateTodo(todo, this.user.id).subscribe(function (data) {
+                _this.getTodos();
+                _this.newTodo = { title: '' };
             }, function (error) {
                 console.log(error);
             });
         }
     };
-    MainComponent.prototype.deleteTodo = function () {
+    MainComponent.prototype.createTodo = function () {
         var _this = this;
-        this.todoService.deleteTodo(this.selectedTodo.id).subscribe(function (data) {
+        if (this.newTodo.title.length < 8) {
+            alert('Please input what you want to do, '
+                + 'it needs to be at least 8 characters');
+            console.log('Minimum length is 8');
+        }
+        else {
+            this.todoService.createTodo(this.newTodo.title, this.user.id).subscribe(function (data) {
+                _this.todos.push(data);
+                _this.newTodo = { title: '' };
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    };
+    MainComponent.prototype.deleteTodo = function (todo) {
+        var _this = this;
+        this.todoService.deleteTodo(todo.id).subscribe(function (data) {
             _this.getTodos();
-            _this.selectedTodo = { title: '' };
+            _this.newTodo = { title: '' };
         }, function (error) {
             console.log(error);
         });
+    };
+    MainComponent.prototype.logout = function () {
+        this.router.navigate(['']);
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('token');
+        this.appUser.setLoggedIn(false);
     };
     MainComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -620,7 +660,8 @@ var MainComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_todo_service__WEBPACK_IMPORTED_MODULE_5__["TodoService"],
             _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
             _user__WEBPACK_IMPORTED_MODULE_3__["User"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_6__["Location"]])
     ], MainComponent);
     return MainComponent;
 }());
@@ -647,7 +688,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-12\">\n    <h1 style =\"text-align:center;\">Welcome, {{user.username}}!</h1>\n    <button class=\"btn btn-default\" (click) =\"profile()\">Profile</button>\n    <button style=\"float:right\" class=\"btn btn-default\" (click) =\"logout()\">Logout</button>\n</div>"
+module.exports = "<div class=\"nav\">\n  <p>Welcome, {{user.username}}!</p>\n  <button (click) =\"profile()\">Profile</button>\n  <button (click) =\"help()\">Need Help?</button>\n</div>"
 
 /***/ }),
 
@@ -665,26 +706,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../user */ "./src/app/user.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
-
 
 
 
 
 var NavComponent = /** @class */ (function () {
-    function NavComponent(user, appUser, router) {
+    function NavComponent(user, router) {
         this.user = user;
-        this.appUser = appUser;
         this.router = router;
     }
-    NavComponent.prototype.logout = function () {
-        this.router.navigate(['']);
-        sessionStorage.removeItem('currentUser');
-        sessionStorage.removeItem('token');
-        this.appUser.setLoggedIn(false);
-    };
     NavComponent.prototype.profile = function () {
         this.router.navigate(['profile']);
+    };
+    NavComponent.prototype.help = function () {
+        this.router.navigate(['help']);
     };
     NavComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -693,7 +728,6 @@ var NavComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./nav.component.css */ "./src/app/nav/nav.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_user__WEBPACK_IMPORTED_MODULE_2__["User"],
-            _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], NavComponent);
     return NavComponent;
@@ -721,7 +755,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-12\">\n    <button class=\"btn btn-default\" style=\"float:right\" (click)=\"goBack()\">Go Back</button>\n    <h1 style =\"text-align:center;\">Profile, {{user.username}}!</h1>    \n</div>\n\n<div class=\"form-group\">\n  <label for=\"firstName\">First Name</label>\n  <input type=\"text\"  class=\"form-control\" id=\"firstName\" [(ngModel)]=\"user.firstName\">\n</div>\n\n<div class=\"form-group\">\n  <label for=\"lastName\">Last Name</label>\n  <input type=\"text\"  class=\"form-control\" id=\"lastName\" [(ngModel)]=\"user.lastName\">\n</div>\n\n<div class=\"form-group\">\n  <label for=\"dateOfBirth\">Date of Birth</label>\n  <input type=\"date\" class=\"form-control\" id=\"dateOfBirth\" [(ngModel)]=\"user.dateOfBirth\">\n</div>\n\n<div class=\"form-group\">\n    <label for=\"profileImage\">Profile Image:</label>\n    <img *ngIf=\"user.profileImage != null\" [src]=\"user.profileImage\" height=\"150px\" width=\"150px\">\n    <input type=\"file\" class=\"form-control\"  id=\"profileImage\" (change)=\"handleFileInput($event.target.files)\">\n  </div>\n\n<button class=\"btn btn-default\" (click)=\"updateUserInfo()\">Update</button>"
+module.exports = "<section class=\"profile\">\n  <div class=\"input\">\n    <button (click)=\"goBack()\">Go Back</button>\n    <div class=\"col-12\">\n      <h1 style =\"text-align:center;\">Profile, {{user.username}}!</h1>    \n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"firstName\">First Name</label>\n      <input type=\"text\"  class=\"form-control\" id=\"firstName\" [(ngModel)]=\"user.firstName\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"lastName\">Last Name</label>\n      <input type=\"text\"  class=\"form-control\" id=\"lastName\" [(ngModel)]=\"user.lastName\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"dateOfBirth\">Date of Birth</label>\n      <input type=\"date\" class=\"form-control\" id=\"dateOfBirth\" [(ngModel)]=\"user.dateOfBirth\">\n    </div>\n\n    <div class=\"form-group\">\n        <label for=\"profileImage\">Profile Image:</label>\n        <img *ngIf=\"user.profileImage != null\" [src]=\"user.profileImage\" height=\"150px\" width=\"150px\">\n        <input type=\"file\" class=\"form-control\"  id=\"profileImage\" (change)=\"handleFileInput($event.target.files)\">\n      </div>\n\n    <button (click)=\"updateUserInfo()\">Update</button>\n  </div>\n</section>"
 
 /***/ }),
 
@@ -824,7 +858,7 @@ var ProfileComponent = /** @class */ (function () {
         });
     };
     ProfileComponent.prototype.goBack = function () {
-        window.history.back();
+        this.router.navigate(['main']);
     };
     ProfileComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -861,7 +895,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Register</h1>\n<input [(ngModel)]=\"input.username\" type=\"text\" placeholder=\"Username\"><br>\n<input [(ngModel)]=\"input.password\" type=\"password\" placeholder=\"Password\"><br>\n<button (click)=\"onRegister()\">Register User</button><br>\n\n\n"
+module.exports = "<div class=\"register-wrapper\">\n    <form class=\"frm\">\n        <h1>Register</h1>\n        <input [(ngModel)]=\"input.username\" name=\"username\" type=\"text\" placeholder=\"Username\">\n        <input [(ngModel)]=\"input.password\" name=\"password\" type=\"password\" placeholder=\"Password\">\n        <button (click)=\"onRegister()\">Register User</button>\n    </form>\n</div>\n\n"
 
 /***/ }),
 
