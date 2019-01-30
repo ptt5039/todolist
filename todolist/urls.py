@@ -15,7 +15,7 @@ urlpatterns = [
     path('profile/', include('todos.urls')),
     path('help/', include('todos.urls')),
     path('register/', include('todos.urls')),
-    path('main/tasks/<int:id>/', include('todos.urls')),
+    path('main/tasks/<int>/', include('todos.urls')),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api/auth/', ObtainAuthToken.as_view()),

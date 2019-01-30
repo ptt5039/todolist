@@ -7,5 +7,5 @@ urlpatterns = [
     path('profile/', views.HomePageView.as_view()),
     path('help/', views.HomePageView.as_view()),
     path('register/', views.HomePageView.as_view()),
-    path('main/tasks/<int:id>/', views.HomePageView.as_view()),
+    path('main/tasks/<int>/', views.HomePageView.as_view()),
 ]

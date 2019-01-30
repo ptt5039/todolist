@@ -74,6 +74,11 @@ var routes = [
         path: 'help',
         component: _help_help_component__WEBPACK_IMPORTED_MODULE_8__["HelpComponent"],
     },
+    {
+        path: 'main/tasks/:id',
+        component: _main_main_component__WEBPACK_IMPORTED_MODULE_4__["MainComponent"],
+        canActivate: [_authorization_guard__WEBPACK_IMPORTED_MODULE_7__["AuthorizationGuard"]]
+    },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
