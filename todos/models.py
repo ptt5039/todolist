@@ -7,10 +7,15 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
+def uploaded_task_image(instance, filename):
+    extension = filename.split(".")[-1]
+    return "tasks/{}.{}".format(uuid.uuid4(), extension)
+
 class Todo(models.Model):
     title = models.CharField(blank=True, max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_complete = models.BooleanField(default=False)
+    taskImage = models.ImageField(upload_to= uploaded_task_image, blank=True, null=True)
 
     class Meta:
         default_related_name = 'todos'

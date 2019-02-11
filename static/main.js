@@ -499,7 +499,7 @@ module.exports = "\r\n\r\n\r\n/*# sourceMappingURL=data:application/json;base64,
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                <div class=\"view\" >\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n                  \n                    <label (click)=\"todoClicked(todo)\" (dblclick)=\"editTodo(todo)\">\n                        {{todo.title}}</label>\n\n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n                </div>\n                <input class=\"edit\" *ngIf=\"todo.editing\" [value]=\"todo.title\" \n                    #editedTodo (blur)=\"updateTodo(todo, editedTodo.value)\" \n                    (keyup.enter)=\"updateTodo(todo, editedTodo.value)\" \n                    (keyup.escape)=\"cancelEditing(todo)\">\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<div class=\"creator-display\" *ngIf=\"user.isSuperuser\">\n    <div>\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>\n<!-- <div class=\"row\">\n    <ul>\n        <li *ngFor=\"let todo of todos\">\n          <h3 *ngIf=\"todo.title\" (click)=\"todoClicked(todo)\">{{todo.title}}\n            <img *ngIf=\"todo.is_complete\" [src]=\"checkIcon\" height=\"20px\" width=\"20px\">\n          </h3>\n        </li>  \n    </ul>\n</div>\n\n<div class=\"row\" *ngIf=\"user.isSuperuser\">\n    <div class=\"form-group\">\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"form-group\">\n        <label for=\"title\">What do you want to do?</label>\n        <input type=\"text\" class=\"form-control\" id=\"title\" [(ngModel)]=\"selectedTodo.title\" placeholder=\"Enter todo\">\n    </div>\n</div>\n\n\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.id\" (click)=\"updateTodo()\">Update</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"!selectedTodo.is_complete && selectedTodo.id\" (click)=\"completeTodo()\">Complete</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.is_complete && selectedTodo.id\" (click)=\"inCompleteTodo()\">InComplete</button>\n<button class=\"btn btn-primary mr-2\" *ngIf=\"!selectedTodo.id\" (click)=\"createTodo()\">Create</button>\n<button class=\"btn btn-danger\" *ngIf=\"selectedTodo.id\" (click)=\"deleteTodo()\">Delete</button> -->"
+module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                <div class=\"view\" >\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n              \n                        <label (click)=\"todoClicked(todo)\" (dblclick)=\"editTodo(todo)\">\n                            {{todo.title}}</label>\n\n                        <img id=\"lightbox\" *ngIf=\"todo.taskImage\" [src]=\"todo.taskImage\" height=\"50px\" width=\"50px\">    \n                        \n                        \n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n\n                </div>\n                <div class=\"view-edit\">\n                    <input class=\"edit\" *ngIf=\"todo.editing\" [value]=\"todo.title\" \n                        #editedTodo (blur)=\"updateTodo(todo, editedTodo.value)\" \n                        (keyup.enter)=\"updateTodo(todo, editedTodo.value)\" \n                        (keyup.escape)=\"cancelEditing(todo)\">\n                    <input class=\"upload-image\" type=\"file\" (change)=\"handleFileInput($event.target.files)\" *ngIf=\"todo.editing\">\n                    <button *ngIf=\"fileToUpload && todo.editing\" (click)=\"todoImage(todo)\">Upload</button>\n                </div>\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<div id=\"lightboxActive\" class=\"modal\"> \n        <!-- The Close Button -->\n        <span class=\"close\">&times;</span>\n\n        <!-- Modal Content (The Image) -->\n        <img class=\"modal-content\" id=\"img\">\n</div>\n\n<div class=\"creator-display\" *ngIf=\"user.isSuperuser\">\n    <div>\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>\n\n<script>\n        // Get the modal\n        var modal = document.getElementById('lightboxActive');\n        \n        // Get the image and insert it inside the modal - use its \"alt\" text as a caption\n        var img = document.getElementById('lightbox');\n        var modalImg = document.getElementById(\"img\");\n        img.onclick = function(){\n          modal.style.display = \"block\";\n          modalImg.src = this.src;\n        }\n        \n        // Get the <span> element that closes the modal\n        var span = document.getElementsByClassName(\"close\")[0];\n        \n        // When the user clicks on <span> (x), close the modal\n        span.onclick = function() { \n          modal.style.display = \"none\";\n        }\n</script>\n<!-- <div class=\"row\">\n    <ul>\n        <li *ngFor=\"let todo of todos\">\n          <h3 *ngIf=\"todo.title\" (click)=\"todoClicked(todo)\">{{todo.title}}\n            <img *ngIf=\"todo.is_complete\" [src]=\"checkIcon\" height=\"20px\" width=\"20px\">\n          </h3>\n        </li>  \n    </ul>\n</div>\n\n<div class=\"row\" *ngIf=\"user.isSuperuser\">\n    <div class=\"form-group\">\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"form-group\">\n        <label for=\"title\">What do you want to do?</label>\n        <input type=\"text\" class=\"form-control\" id=\"title\" [(ngModel)]=\"selectedTodo.title\" placeholder=\"Enter todo\">\n    </div>\n</div>\n\n\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.id\" (click)=\"updateTodo()\">Update</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"!selectedTodo.is_complete && selectedTodo.id\" (click)=\"completeTodo()\">Complete</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.is_complete && selectedTodo.id\" (click)=\"inCompleteTodo()\">InComplete</button>\n<button class=\"btn btn-primary mr-2\" *ngIf=\"!selectedTodo.id\" (click)=\"createTodo()\">Create</button>\n<button class=\"btn btn-danger\" *ngIf=\"selectedTodo.id\" (click)=\"deleteTodo()\">Delete</button> -->"
 
 /***/ }),
 
@@ -536,6 +536,7 @@ var MainComponent = /** @class */ (function () {
         this.location = location;
         this.todos = [];
         this.checkIcon = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com/media/check.png';
+        this.fileToUpload = null;
         if (sessionStorage.getItem('currentUser') != null) {
             this.appUser.getCurrentUser();
             this.appUser.setLoggedIn(true);
@@ -547,6 +548,9 @@ var MainComponent = /** @class */ (function () {
             this.router.navigate(['']);
         }
     }
+    MainComponent.prototype.handleFileInput = function (files) {
+        this.fileToUpload = files.item(0);
+    };
     MainComponent.prototype.cancelEditing = function (todo) {
         todo.editing = false;
     };
@@ -618,7 +622,7 @@ var MainComponent = /** @class */ (function () {
         }
         else {
             todo.title = editedTitle;
-            this.todoService.updateTodo(todo, this.user.id).subscribe(function (data) {
+            this.todoService.updateTodo(todo).subscribe(function (data) {
                 _this.getTodos();
                 _this.newTodo = { title: '' };
             }, function (error) {
@@ -645,6 +649,15 @@ var MainComponent = /** @class */ (function () {
     MainComponent.prototype.deleteTodo = function (todo) {
         var _this = this;
         this.todoService.deleteTodo(todo.id).subscribe(function (data) {
+            _this.getTodos();
+            _this.newTodo = { title: '' };
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    MainComponent.prototype.todoImage = function (todo) {
+        var _this = this;
+        this.todoService.todoImage(todo.id, this.fileToUpload).subscribe(function (data) {
             _this.getTodos();
             _this.newTodo = { title: '' };
         }, function (error) {
@@ -983,6 +996,7 @@ var TodoService = /** @class */ (function () {
     function TodoService(http, user) {
         this.http = http;
         this.user = user;
+        // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': 'Token ebd1b536f6acef41d13946aa7605f9c6bc03ce35' });
         // this.appUser.getCurrentToken();
@@ -1001,9 +1015,9 @@ var TodoService = /** @class */ (function () {
         var body = { is_complete: status };
         return this.http.patch(this.baseUrl + '/api/todos/' + todo.id + '/', body, { headers: this.HttpHeaders });
     };
-    TodoService.prototype.updateTodo = function (todo, userId) {
-        var body = { title: todo.title, user: userId };
-        return this.http.put(this.baseUrl + '/api/todos/' + todo.id + '/', body, { headers: this.HttpHeaders });
+    TodoService.prototype.updateTodo = function (todo) {
+        var body = { title: todo.title };
+        return this.http.patch(this.baseUrl + '/api/todos/' + todo.id + '/', body, { headers: this.HttpHeaders });
     };
     TodoService.prototype.createTodo = function (text, userId) {
         var body = { title: text, user: userId };
@@ -1011,6 +1025,11 @@ var TodoService = /** @class */ (function () {
     };
     TodoService.prototype.deleteTodo = function (id) {
         return this.http.delete(this.baseUrl + '/api/todos/' + id + '/', { headers: this.HttpHeaders });
+    };
+    TodoService.prototype.todoImage = function (id, fileToUpload) {
+        var formData = new FormData();
+        formData.append('taskImage', fileToUpload, fileToUpload.name);
+        return this.http.patch(this.baseUrl + '/api/todos/' + id + '/', formData, { headers: this.HttpHeaders });
     };
     TodoService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1049,6 +1068,7 @@ var UserService = /** @class */ (function () {
         this.http = http;
         this.user = user;
         this.loggedInStatus = false;
+        // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': 'Token ebd1b536f6acef41d13946aa7605f9c6bc03ce35' });
     }
