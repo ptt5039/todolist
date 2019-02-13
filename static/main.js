@@ -42,6 +42,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
 /* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
 /* harmony import */ var _help_help_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./help/help.component */ "./src/app/help/help.component.ts");
+/* harmony import */ var _task_task_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./task/task.component */ "./src/app/task/task.component.ts");
+
 
 
 
@@ -76,7 +78,7 @@ var routes = [
     },
     {
         path: 'main/tasks/:id',
-        component: _main_main_component__WEBPACK_IMPORTED_MODULE_4__["MainComponent"],
+        component: _task_task_component__WEBPACK_IMPORTED_MODULE_9__["TaskComponent"],
         canActivate: [_authorization_guard__WEBPACK_IMPORTED_MODULE_7__["AuthorizationGuard"]]
     },
 ];
@@ -180,11 +182,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./todo.service */ "./src/app/todo.service.ts");
 /* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
 /* harmony import */ var _help_help_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./help/help.component */ "./src/app/help/help.component.ts");
+/* harmony import */ var _task_task_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./task/task.component */ "./src/app/task/task.component.ts");
+/* harmony import */ var ngx_file_drop__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ngx-file-drop */ "./node_modules/ngx-file-drop/fesm5/ngx-file-drop.js");
+/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./task */ "./src/app/task.ts");
 
 
 
 
 //import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
+
+
 
 
 
@@ -212,12 +220,14 @@ var AppModule = /** @class */ (function () {
                 _nav_nav_component__WEBPACK_IMPORTED_MODULE_13__["NavComponent"],
                 _register_register_component__WEBPACK_IMPORTED_MODULE_14__["RegisterComponent"],
                 _help_help_component__WEBPACK_IMPORTED_MODULE_17__["HelpComponent"],
+                _task_task_component__WEBPACK_IMPORTED_MODULE_18__["TaskComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"],
+                ngx_file_drop__WEBPACK_IMPORTED_MODULE_19__["FileDropModule"],
             ],
             providers: [
                 _authorization_guard__WEBPACK_IMPORTED_MODULE_16__["AuthorizationGuard"],
@@ -225,6 +235,7 @@ var AppModule = /** @class */ (function () {
                 _user__WEBPACK_IMPORTED_MODULE_10__["User"],
                 _user_service__WEBPACK_IMPORTED_MODULE_12__["UserService"],
                 _todo_service__WEBPACK_IMPORTED_MODULE_15__["TodoService"],
+                _task__WEBPACK_IMPORTED_MODULE_20__["Task"],
             ],
             bootstrap: [
                 _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]
@@ -327,7 +338,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Assistance Page</h1>\n<p>1. To create a task, type in what your task is in the \"What needs to be done?\" box and press enter.</p>\n<p>2. To edit a task, double click the task, and type what you need to change in the text box that was appeared and press enter.</p>\n<p>3. To mark the task that is completed, click on the circle on the right of the task.</p>\n<p>4. To delete the task, click on the red X on the right of the task. The X will appear when you hover the cursor over it.</p>\n<p>5. To show the Creator of the task, click once on the task and the Creator will appear on the bottom of the page.</p>\n<p>6. To change the profile, click on the Profile button.</p>\n<p>Thank you!</p>\n<button (click) = \"goBack()\">Go Back</button>"
+module.exports = "<h1>Assistance Page</h1>\n<p>1. To create a task, type in what your task is in the \"What needs to be done?\" box and press enter.</p>\n<p>2. To edit a task, click the task, you will be directed to a new page that contain the task information <br>\n      click on the task title and type what you need to change in the text box that was appeared and press enter.</p>\n<p>3. To attach or replace an image on the task, simply drag and drop an image file to the individual task page.</p>\n<p>4. To mark the task that is completed, click on the circle on the right of the task.</p>\n<p>5. To delete the task, click on the red X on the right of the task. The X will appear when you hover the cursor over it.</p>\n<p>6. To attach an image to the task, simply drag and drop an image file to the task page.</p>\n<p>7. To change the profile, click on the Profile button.</p>\n<p>Thank you!</p>\n<button (click) = \"goBack()\">Go Back</button>"
 
 /***/ }),
 
@@ -499,7 +510,7 @@ module.exports = "\r\n\r\n\r\n/*# sourceMappingURL=data:application/json;base64,
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                <div class=\"view\" >\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n              \n                        <label (click)=\"todoClicked(todo)\" (dblclick)=\"editTodo(todo)\">\n                            {{todo.title}}</label>\n\n                        <img id=\"lightbox\" *ngIf=\"todo.taskImage\" [src]=\"todo.taskImage\" height=\"50px\" width=\"50px\">    \n                        \n                        \n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n\n                </div>\n                <div class=\"view-edit\">\n                    <input class=\"edit\" *ngIf=\"todo.editing\" [value]=\"todo.title\" \n                        #editedTodo (blur)=\"updateTodo(todo, editedTodo.value)\" \n                        (keyup.enter)=\"updateTodo(todo, editedTodo.value)\" \n                        (keyup.escape)=\"cancelEditing(todo)\">\n                    <input class=\"upload-image\" type=\"file\" (change)=\"handleFileInput($event.target.files)\" *ngIf=\"todo.editing\">\n                    <button *ngIf=\"fileToUpload && todo.editing\" (click)=\"todoImage(todo)\">Upload</button>\n                </div>\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<div id=\"lightboxActive\" class=\"modal\"> \n        <!-- The Close Button -->\n        <span class=\"close\">&times;</span>\n\n        <!-- Modal Content (The Image) -->\n        <img class=\"modal-content\" id=\"img\">\n</div>\n\n<div class=\"creator-display\" *ngIf=\"user.isSuperuser\">\n    <div>\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>\n\n<script>\n        // Get the modal\n        var modal = document.getElementById('lightboxActive');\n        \n        // Get the image and insert it inside the modal - use its \"alt\" text as a caption\n        var img = document.getElementById('lightbox');\n        var modalImg = document.getElementById(\"img\");\n        img.onclick = function(){\n          modal.style.display = \"block\";\n          modalImg.src = this.src;\n        }\n        \n        // Get the <span> element that closes the modal\n        var span = document.getElementsByClassName(\"close\")[0];\n        \n        // When the user clicks on <span> (x), close the modal\n        span.onclick = function() { \n          modal.style.display = \"none\";\n        }\n</script>\n<!-- <div class=\"row\">\n    <ul>\n        <li *ngFor=\"let todo of todos\">\n          <h3 *ngIf=\"todo.title\" (click)=\"todoClicked(todo)\">{{todo.title}}\n            <img *ngIf=\"todo.is_complete\" [src]=\"checkIcon\" height=\"20px\" width=\"20px\">\n          </h3>\n        </li>  \n    </ul>\n</div>\n\n<div class=\"row\" *ngIf=\"user.isSuperuser\">\n    <div class=\"form-group\">\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"form-group\">\n        <label for=\"title\">What do you want to do?</label>\n        <input type=\"text\" class=\"form-control\" id=\"title\" [(ngModel)]=\"selectedTodo.title\" placeholder=\"Enter todo\">\n    </div>\n</div>\n\n\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.id\" (click)=\"updateTodo()\">Update</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"!selectedTodo.is_complete && selectedTodo.id\" (click)=\"completeTodo()\">Complete</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.is_complete && selectedTodo.id\" (click)=\"inCompleteTodo()\">InComplete</button>\n<button class=\"btn btn-primary mr-2\" *ngIf=\"!selectedTodo.id\" (click)=\"createTodo()\">Create</button>\n<button class=\"btn btn-danger\" *ngIf=\"selectedTodo.id\" (click)=\"deleteTodo()\">Delete</button> -->"
+module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n                    \n                    <label (click)=\"todoClicked(todo)\">{{todo.title}}</label>\n                            \n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>\n\n<script>\n        // Get the modal\n        var modal = document.getElementById('lightboxActive');\n        \n        // Get the image and insert it inside the modal - use its \"alt\" text as a caption\n        var img = document.getElementById('lightbox');\n        var modalImg = document.getElementById(\"img\");\n        img.onclick = function(){\n          modal.style.display = \"block\";\n          modalImg.src = this.src;\n        }\n        \n        // Get the <span> element that closes the modal\n        var span = document.getElementsByClassName(\"close\")[0];\n        \n        // When the user clicks on <span> (x), close the modal\n        span.onclick = function() { \n          modal.style.display = \"none\";\n        }\n</script>\n<!-- <div class=\"row\">\n    <ul>\n        <li *ngFor=\"let todo of todos\">\n          <h3 *ngIf=\"todo.title\" (click)=\"todoClicked(todo)\">{{todo.title}}\n            <img *ngIf=\"todo.is_complete\" [src]=\"checkIcon\" height=\"20px\" width=\"20px\">\n          </h3>\n        </li>  \n    </ul>\n</div>\n\n<div class=\"row\" *ngIf=\"user.isSuperuser\">\n    <div class=\"form-group\">\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"form-group\">\n        <label for=\"title\">What do you want to do?</label>\n        <input type=\"text\" class=\"form-control\" id=\"title\" [(ngModel)]=\"selectedTodo.title\" placeholder=\"Enter todo\">\n    </div>\n</div>\n\n\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.id\" (click)=\"updateTodo()\">Update</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"!selectedTodo.is_complete && selectedTodo.id\" (click)=\"completeTodo()\">Complete</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.is_complete && selectedTodo.id\" (click)=\"inCompleteTodo()\">InComplete</button>\n<button class=\"btn btn-primary mr-2\" *ngIf=\"!selectedTodo.id\" (click)=\"createTodo()\">Create</button>\n<button class=\"btn btn-danger\" *ngIf=\"selectedTodo.id\" (click)=\"deleteTodo()\">Delete</button> -->"
 
 /***/ }),
 
@@ -519,7 +530,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../user */ "./src/app/user.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../task */ "./src/app/task.ts");
 
 
 
@@ -528,32 +539,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var MainComponent = /** @class */ (function () {
-    function MainComponent(todoService, appUser, user, router, location) {
+    function MainComponent(todoService, appUser, user, router, taskClass) {
         this.todoService = todoService;
         this.appUser = appUser;
         this.user = user;
         this.router = router;
-        this.location = location;
+        this.taskClass = taskClass;
         this.todos = [];
         this.checkIcon = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com/media/check.png';
-        this.fileToUpload = null;
         if (sessionStorage.getItem('currentUser') != null) {
             this.appUser.getCurrentUser();
             this.appUser.setLoggedIn(true);
             this.getTodos();
             this.newTodo = { title: '' };
+            this.taskClass.id = null;
+            sessionStorage.removeItem('task');
         }
         else {
             this.appUser.setLoggedIn(false);
             this.router.navigate(['']);
         }
     }
-    MainComponent.prototype.handleFileInput = function (files) {
-        this.fileToUpload = files.item(0);
-    };
-    MainComponent.prototype.cancelEditing = function (todo) {
-        todo.editing = false;
-    };
     MainComponent.prototype.editTodo = function (todo) {
         todo.editing = true;
     };
@@ -577,12 +583,15 @@ var MainComponent = /** @class */ (function () {
     MainComponent.prototype.todoClicked = function (todo) {
         var _this = this;
         this.todoService.getTodo(todo.id).subscribe(function (data) {
-            _this.location.go('/main/tasks/' + todo.id + '/');
             _this.selectedTodo = data;
+            _this.taskClass.id = todo.id;
+            console.log(_this.taskClass.id);
+            sessionStorage.setItem('task', JSON.stringify(data));
             _this.appUser.getUsername(_this.selectedTodo.user)
                 .subscribe(function (data) {
                 _this.username = data[0].username.toString();
             });
+            _this.router.navigate(['/main/tasks', todo.id]);
         }, function (error) {
             console.log(error);
         });
@@ -613,23 +622,6 @@ var MainComponent = /** @class */ (function () {
             console.log(error);
         });
     };
-    MainComponent.prototype.updateTodo = function (todo, editedTitle) {
-        var _this = this;
-        todo.editing = false;
-        if (editedTitle.length < 8) {
-            alert('Please input what you want to update to, '
-                + 'it needs to be at least 8 characters');
-        }
-        else {
-            todo.title = editedTitle;
-            this.todoService.updateTodo(todo).subscribe(function (data) {
-                _this.getTodos();
-                _this.newTodo = { title: '' };
-            }, function (error) {
-                console.log(error);
-            });
-        }
-    };
     MainComponent.prototype.createTodo = function () {
         var _this = this;
         if (this.newTodo.title.length < 8) {
@@ -655,19 +647,11 @@ var MainComponent = /** @class */ (function () {
             console.log(error);
         });
     };
-    MainComponent.prototype.todoImage = function (todo) {
-        var _this = this;
-        this.todoService.todoImage(todo.id, this.fileToUpload).subscribe(function (data) {
-            _this.getTodos();
-            _this.newTodo = { title: '' };
-        }, function (error) {
-            console.log(error);
-        });
-    };
     MainComponent.prototype.logout = function () {
         this.router.navigate(['']);
         sessionStorage.removeItem('currentUser');
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('task');
         this.appUser.setLoggedIn(false);
     };
     MainComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -680,7 +664,7 @@ var MainComponent = /** @class */ (function () {
             _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
             _user__WEBPACK_IMPORTED_MODULE_3__["User"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _angular_common__WEBPACK_IMPORTED_MODULE_6__["Location"]])
+            _task__WEBPACK_IMPORTED_MODULE_6__["Task"]])
     ], MainComponent);
     return MainComponent;
 }());
@@ -974,6 +958,189 @@ var RegisterComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/task.ts":
+/*!*************************!*\
+  !*** ./src/app/task.ts ***!
+  \*************************/
+/*! exports provided: Task */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Task", function() { return Task; });
+var Task = /** @class */ (function () {
+    function Task() {
+    }
+    return Task;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/task/task.component.css":
+/*!*****************************************!*\
+  !*** ./src/app/task/task.component.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3Rhc2svdGFzay5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/task/task.component.html":
+/*!******************************************!*\
+  !*** ./src/app/task/task.component.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"task.taskImage != null\" [src]=\"task.taskImage\">\n\n</div>\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n        <p *ngIf=\"error\" style=\"color: red; font-weight: bolder;\">Please re-upload a valid image file!</p>\n        <h1 (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n\n        <img (click)=\"enlargeImage()\" *ngIf=\"task.taskImage != null\" [src]=\"task.taskImage\">\n\n    </div>\n\n</section>\n"
+
+/***/ }),
+
+/***/ "./src/app/task/task.component.ts":
+/*!****************************************!*\
+  !*** ./src/app/task/task.component.ts ***!
+  \****************************************/
+/*! exports provided: TaskComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskComponent", function() { return TaskComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../task */ "./src/app/task.ts");
+/* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
+
+
+
+
+var TaskComponent = /** @class */ (function () {
+    function TaskComponent(todoService, taskClass, appUser, router) {
+        this.todoService = todoService;
+        this.taskClass = taskClass;
+        this.appUser = appUser;
+        this.router = router;
+        this.isLoaded = false;
+        this.taskId = { id: null, taskImage: null };
+        this.editing = false;
+        this.error = false;
+        this.enlarge = false;
+    }
+    TaskComponent.prototype.ngOnInit = function () {
+        if (sessionStorage.getItem('currentUser') != null) {
+            this.appUser.setLoggedIn(true);
+            if (sessionStorage.getItem('task') != null)
+                this.task = JSON.parse(sessionStorage.getItem('task'));
+            console.log(this.task);
+            this.getTask(this.task.id);
+            if (this.task != null)
+                this.isLoaded = true;
+            else
+                this.isLoaded = false;
+        }
+        else {
+            this.appUser.setLoggedIn(false);
+            this.router.navigate(['']);
+        }
+    };
+    TaskComponent.prototype.cancelEditing = function () {
+        this.editing = false;
+    };
+    TaskComponent.prototype.editTitle = function () {
+        this.editing = true;
+    };
+    TaskComponent.prototype.enlargeImage = function () {
+        this.enlarge = true;
+    };
+    TaskComponent.prototype.dropped = function (event) {
+        event.preventDefault();
+        this.files = event.dataTransfer.files;
+        if (this.files.length > 0 && this.files[0].type.includes("image/") == true) {
+            this.error = false;
+            console.log(this.files);
+            this.uploadImage(this.files[0], this.files[0].name);
+        }
+        else
+            this.error = true;
+        console.log(this.files);
+    };
+    TaskComponent.prototype.uploadImage = function (file, path) {
+        var _this = this;
+        this.todoService.todoImage(this.taskClass.id, file, path).subscribe(function (data) {
+            _this.getTask(_this.taskClass.id);
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    TaskComponent.prototype.getTask = function (id) {
+        var _this = this;
+        this.todoService.getTodo(id).subscribe(function (data) {
+            _this.task = data;
+            console.log(_this.task);
+            _this.appUser.getUsername(_this.task.user)
+                .subscribe(function (data) {
+                _this.task.username = data[0].username.toString();
+            });
+            if (_this.task.is_complete)
+                _this.task.status = 'Completed';
+            else
+                _this.task.status = 'Has not completed';
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    TaskComponent.prototype.fileOver = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    };
+    TaskComponent.prototype.updateTodo = function (task, editedTitle) {
+        var _this = this;
+        this.editing = false;
+        if (editedTitle.length < 8) {
+            alert('Please input what you want to update to, '
+                + 'it needs to be at least 8 characters');
+        }
+        else {
+            task.title = editedTitle;
+            this.todoService.updateTodo(task).subscribe(function (data) {
+                _this.getTask(_this.task.id);
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    };
+    TaskComponent.prototype.goBack = function () {
+        this.router.navigate(['main']);
+    };
+    TaskComponent.prototype.closeEnlarge = function () {
+        this.enlarge = false;
+    };
+    TaskComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-task',
+            template: __webpack_require__(/*! ./task.component.html */ "./src/app/task/task.component.html"),
+            styles: [__webpack_require__(/*! ./task.component.css */ "./src/app/task/task.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_todo_service__WEBPACK_IMPORTED_MODULE_3__["TodoService"],
+            _task__WEBPACK_IMPORTED_MODULE_2__["Task"],
+            _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+    ], TaskComponent);
+    return TaskComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/todo.service.ts":
 /*!*********************************!*\
   !*** ./src/app/todo.service.ts ***!
@@ -1026,9 +1193,9 @@ var TodoService = /** @class */ (function () {
     TodoService.prototype.deleteTodo = function (id) {
         return this.http.delete(this.baseUrl + '/api/todos/' + id + '/', { headers: this.HttpHeaders });
     };
-    TodoService.prototype.todoImage = function (id, fileToUpload) {
+    TodoService.prototype.todoImage = function (id, fileToUpload, name) {
         var formData = new FormData();
-        formData.append('taskImage', fileToUpload, fileToUpload.name);
+        formData.append('taskImage', fileToUpload, name);
         return this.http.patch(this.baseUrl + '/api/todos/' + id + '/', formData, { headers: this.HttpHeaders });
     };
     TodoService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1226,7 +1393,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\example\todolist\website\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\example\todolist\WEBSITE\src\main.ts */"./src/main.ts");
 
 
 /***/ })
