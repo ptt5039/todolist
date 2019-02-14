@@ -180,11 +180,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _task_task_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./task/task.component */ "./src/app/task/task.component.ts");
 /* harmony import */ var ngx_file_drop__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ngx-file-drop */ "./node_modules/ngx-file-drop/fesm5/ngx-file-drop.js");
 /* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./task */ "./src/app/task.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
 
 
 
 
 //import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
 
 
@@ -225,6 +227,7 @@ var AppModule = /** @class */ (function () {
                 ngx_file_drop__WEBPACK_IMPORTED_MODULE_19__["FileDropModule"],
             ],
             providers: [
+                ngx_cookie_service__WEBPACK_IMPORTED_MODULE_21__["CookieService"],
                 _authorization_guard__WEBPACK_IMPORTED_MODULE_16__["AuthorizationGuard"],
                 _app_service__WEBPACK_IMPORTED_MODULE_9__["AppService"],
                 _user__WEBPACK_IMPORTED_MODULE_10__["User"],
@@ -414,22 +417,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../user */ "./src/app/user.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
 
 
 
 
 
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(appUser, router, user) {
+    function LoginComponent(cookie, appUser, router, user) {
+        this.cookie = cookie;
         this.appUser = appUser;
         this.router = router;
         this.user = user;
-        this.token = [];
+        this.expiresValue = new Date();
         this.input = {
             username: '',
             password: ''
         };
-        if (sessionStorage.getItem('currentUser') != null) {
+        if (this.cookie.get('isAuthorized') == '1') {
             this.appUser.setLoggedIn(true);
             this.router.navigate(['main']);
         }
@@ -443,7 +449,6 @@ var LoginComponent = /** @class */ (function () {
             username: '',
             password: ''
         };
-        this.token = null;
     };
     LoginComponent.prototype.register = function () {
         this.router.navigate(['register']);
@@ -451,16 +456,21 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.onLogin = function () {
         var _this = this;
         this.appUser.loginUser(this.input).subscribe(function (response) {
+            _this.expiresValue.setMinutes(_this.expiresValue.getMinutes() + 10);
             _this.user.username = _this.input.username;
-            sessionStorage.setItem('token', JSON.stringify(_this.token));
+            _this.cookie.set('isAuthorized', JSON.stringify(1));
             _this.appUser.setLoggedIn(true);
             _this.appUser.getUser(_this.input.username).subscribe(function (data) {
-                sessionStorage.setItem('currentUser', JSON.stringify(data));
                 _this.user.id = data[0].id;
                 _this.user.firstName = data[0].first_name;
                 _this.user.lastName = data[0].last_name;
                 _this.user.username = data[0].username;
                 _this.user.isSuperuser = data[0].is_superuser;
+                _this.cookie.set('ui', JSON.stringify(_this.user.id));
+                if (_this.user.isSuperuser)
+                    _this.cookie.set('isSuper', JSON.stringify(1));
+                else
+                    _this.cookie.set('isSuper', JSON.stringify(0));
                 _this.router.navigate(['main']);
             }, function (error) {
                 console.log(error);
@@ -476,7 +486,8 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./login.component.html */ "./src/app/login/login.component.html"),
             styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/login/login.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"],
+            _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
             _user__WEBPACK_IMPORTED_MODULE_3__["User"]])
     ], LoginComponent);
@@ -526,6 +537,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
 /* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../task */ "./src/app/task.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
 
 
 
@@ -534,27 +547,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var MainComponent = /** @class */ (function () {
-    function MainComponent(todoService, appUser, user, router, taskClass) {
+    function MainComponent(todoService, appUser, user, router, taskClass, cookie) {
         this.todoService = todoService;
         this.appUser = appUser;
         this.user = user;
         this.router = router;
         this.taskClass = taskClass;
+        this.cookie = cookie;
         this.todos = [];
         this.checkIcon = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com/media/check.png';
-        if (sessionStorage.getItem('currentUser') != null) {
-            this.appUser.getCurrentUser();
+        this.expiredValue = new Date();
+        if (this.cookie.get('isAuthorized') == '1') {
             this.appUser.setLoggedIn(true);
-            this.getTodos();
+            if (JSON.parse(this.cookie.get('isSuper')) == 1)
+                this.user.isSuperuser = true;
+            else
+                this.user.isSuperuser = false;
             this.newTodo = { title: '' };
             this.taskClass.id = null;
-            sessionStorage.removeItem('task');
+            this.cookie.delete('ti');
         }
         else {
             this.appUser.setLoggedIn(false);
             this.router.navigate(['']);
         }
     }
+    MainComponent.prototype.ngOnInit = function () {
+        this.appUser.getCurrentUser();
+        this.getTodos();
+    };
     MainComponent.prototype.editTodo = function (todo) {
         todo.editing = true;
     };
@@ -579,12 +600,13 @@ var MainComponent = /** @class */ (function () {
         var _this = this;
         this.todoService.getTodo(todo.id).subscribe(function (data) {
             _this.selectedTodo = data;
-            _this.taskClass.id = todo.id;
-            sessionStorage.setItem('task', JSON.stringify(data));
+            _this.taskClass.id = data.id;
             _this.appUser.getUsername(_this.selectedTodo.user)
                 .subscribe(function (data) {
                 _this.username = data[0].username.toString();
             });
+            _this.expiredValue.setMinutes(_this.expiredValue.getMinutes() + 10);
+            _this.cookie.set('ti', JSON.stringify(data.id));
             _this.router.navigate(['/main/tasks', todo.id]);
         }, function (error) {
             console.log(error);
@@ -643,9 +665,9 @@ var MainComponent = /** @class */ (function () {
     };
     MainComponent.prototype.logout = function () {
         this.router.navigate(['']);
-        sessionStorage.removeItem('currentUser');
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('task');
+        this.cookie.delete('isAuthorized');
+        this.cookie.delete('ui');
+        this.cookie.delete('isSuper');
         this.appUser.setLoggedIn(false);
     };
     MainComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -658,7 +680,8 @@ var MainComponent = /** @class */ (function () {
             _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
             _user__WEBPACK_IMPORTED_MODULE_3__["User"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _task__WEBPACK_IMPORTED_MODULE_6__["Task"]])
+            _task__WEBPACK_IMPORTED_MODULE_6__["Task"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"]])
     ], MainComponent);
     return MainComponent;
 }());
@@ -771,20 +794,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../user */ "./src/app/user.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
 
 
 
 
 
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(user, appUser, router) {
+    function ProfileComponent(user, appUser, router, cookie) {
         this.user = user;
         this.appUser = appUser;
         this.router = router;
+        this.cookie = cookie;
+        this.error = false;
         this.fileToUpload = null;
         this.arrayData = [];
-        if (sessionStorage.getItem('currentUser') != null) {
-            this.appUser.getCurrentUser();
+        if (this.cookie.get('isAuthorized') == '1') {
+            this.user.id = this.cookie.get('ui');
             this.appUser.setLoggedIn(true);
             this.getUserInfo();
         }
@@ -796,6 +823,7 @@ var ProfileComponent = /** @class */ (function () {
     ProfileComponent.prototype.getUserInfo = function () {
         var _this = this;
         this.appUser.getUserInfo(this.user.id).subscribe(function (data) {
+            _this.appUser.getCurrentUser();
             _this.user.profileId = data[0].id.toString();
             _this.user.dateOfBirth = data[0].dateOfBirth;
             _this.user.profileImage = data[0].profileImage;
@@ -806,10 +834,14 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.handleFileInput = function (files) {
         this.fileToUpload = files.item(0);
+        if (this.fileToUpload.type.includes('image/') != true)
+            this.error = false;
+        else
+            this.error = true;
     };
     ProfileComponent.prototype.updateUserInfo = function () {
         this.updateUserName();
-        if (this.user.dateOfBirth == null && this.fileToUpload != null)
+        if (this.user.dateOfBirth == null && this.fileToUpload.type.includes('image/') == true)
             this.updateImage();
         else if (this.fileToUpload == null && this.user.dateOfBirth != null)
             this.updateDateOfBirth();
@@ -862,7 +894,8 @@ var ProfileComponent = /** @class */ (function () {
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_user__WEBPACK_IMPORTED_MODULE_2__["User"],
             _user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"]])
     ], ProfileComponent);
     return ProfileComponent;
 }());
@@ -1007,6 +1040,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
 
 
 
@@ -1014,11 +1049,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var TaskComponent = /** @class */ (function () {
-    function TaskComponent(todoService, taskClass, appUser, router) {
+    function TaskComponent(todoService, taskClass, appUser, router, cookie) {
         this.todoService = todoService;
         this.taskClass = taskClass;
         this.appUser = appUser;
         this.router = router;
+        this.cookie = cookie;
         this.isLoaded = false;
         this.taskImages = [];
         this.editing = false;
@@ -1026,23 +1062,21 @@ var TaskComponent = /** @class */ (function () {
         this.errorLength = false;
         this.enlarge = false;
         this.delete = false;
-    }
-    TaskComponent.prototype.ngOnInit = function () {
-        if (sessionStorage.getItem('currentUser') != null) {
+        if (this.cookie.get('isAuthorized') == '1') {
+            this.taskClass.id = this.cookie.get('ti');
             this.appUser.setLoggedIn(true);
-            if (sessionStorage.getItem('task') != null)
-                this.task = JSON.parse(sessionStorage.getItem('task'));
-            console.log('Get task detail from session storage succeed');
-            this.getTask(this.task.id);
-            if (this.task != null)
-                this.isLoaded = true;
-            else
-                this.isLoaded = false;
+            this.getTask(this.taskClass.id);
         }
         else {
             this.appUser.setLoggedIn(false);
             this.router.navigate(['']);
         }
+    }
+    TaskComponent.prototype.ngOnInit = function () {
+        if (this.taskClass.id != null)
+            this.isLoaded = true;
+        else
+            this.isLoaded = false;
     };
     TaskComponent.prototype.cancelEditing = function () {
         this.editing = false;
@@ -1162,7 +1196,8 @@ var TaskComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_todo_service__WEBPACK_IMPORTED_MODULE_3__["TodoService"],
             _task__WEBPACK_IMPORTED_MODULE_2__["Task"],
             _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__["CookieService"]])
     ], TaskComponent);
     return TaskComponent;
 }());
@@ -1263,14 +1298,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
 
 
 
 
 var UserService = /** @class */ (function () {
-    function UserService(http, user) {
+    function UserService(http, user, cookie) {
         this.http = http;
         this.user = user;
+        this.cookie = cookie;
         this.loggedInStatus = false;
         // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
@@ -1294,6 +1332,9 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.getUser = function (username) {
         return this.http.get(this.baseUrl + '/api/users/?username=' + username, { headers: this.HttpHeaders });
+    };
+    UserService.prototype.getUserById = function (id) {
+        return this.http.get(this.baseUrl + '/api/users/' + id + '/', { headers: this.HttpHeaders });
     };
     UserService.prototype.getUserInfo = function (userId) {
         return this.http.get(this.baseUrl + '/api/userinfo/?user=' + userId, { headers: this.HttpHeaders });
@@ -1324,21 +1365,24 @@ var UserService = /** @class */ (function () {
         return this.http.patch(this.baseUrl + '/api/userinfo/' + user.profileId + '/', formData, { headers: this.HttpHeaders });
     };
     UserService.prototype.getCurrentUser = function () {
-        if (sessionStorage.getItem('currentUser') != null)
-            this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-        console.log('Get user info from session storage successfull!');
-        this.user.id = this.currentUser[0].id;
-        this.user.firstName = this.currentUser[0].first_name;
-        this.user.lastName = this.currentUser[0].last_name;
-        this.user.username = this.currentUser[0].username;
-        this.user.isSuperuser = this.currentUser[0].is_superuser;
+        var _this = this;
+        if (this.cookie.get('isAuthorized') == '1')
+            this.currentUser = this.cookie.get('ui');
+        this.getUserById(this.currentUser).subscribe(function (data) {
+            _this.user.id = data.id;
+            _this.user.firstName = data.first_name;
+            _this.user.lastName = data.last_name;
+            _this.user.username = data.username;
+            _this.user.isSuperuser = data.is_superuser;
+        });
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
-            _user__WEBPACK_IMPORTED_MODULE_3__["User"]])
+            _user__WEBPACK_IMPORTED_MODULE_3__["User"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__["CookieService"]])
     ], UserService);
     return UserService;
 }());
@@ -1359,7 +1403,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
 var User = /** @class */ (function () {
     function User() {
-        this.id = 0;
+        this.id = null;
         this.profileId = 0;
     }
     return User;
@@ -1430,7 +1474,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\example\todolist\WEBSITE\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\example\todolist\website\src\main.ts */"./src/main.ts");
 
 
 /***/ })
