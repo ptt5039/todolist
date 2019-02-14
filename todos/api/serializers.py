@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from todos.models import Todo, UserInfo
+from todos.models import Todo, UserInfo, TaskImage
 from django.contrib.auth.models import User
 
 class TodoSerializer(serializers.ModelSerializer):
@@ -22,3 +22,8 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
         fields = ('id', 'user', 'dateOfBirth', 'profileImage')
+
+class TaskImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskImage
+        fields = ('__all__')

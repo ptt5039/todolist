@@ -1,5 +1,5 @@
-from .serializers import TodoSerializer, UserSerializer, UserInfoSerializer
-from todos.models import Todo, UserInfo
+from .serializers import TodoSerializer, UserSerializer, UserInfoSerializer, TaskImageSerializer
+from todos.models import Todo, UserInfo, TaskImage
 from django.contrib.auth.models import User
 
 from rest_framework import viewsets
@@ -10,6 +10,12 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 import django_filters.rest_framework
+
+class TaskImageFilter(filters.FilterSet):
+    
+    class Meta:
+        model = TaskImage
+        fields = ('id', 'task')
 
 class TodoFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr='icontains')
@@ -58,3 +64,10 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     filterset_class = UserInfoFilter
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+class TaskImageViewSet(viewsets.ModelViewSet):
+    queryset = TaskImage.objects.all()
+    serializer_class = TaskImageSerializer
+    filterset_class = TaskImageFilter
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)

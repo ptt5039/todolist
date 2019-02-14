@@ -20,6 +20,7 @@ ALLOWED_HOSTS = [
     'todolist-todolist.7e14.starter-us-west-2.openshiftapps.com', 
     'localhost', 
     '127.0.0.1',
+    'myitproject.net',
     ]
 
 

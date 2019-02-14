@@ -40,10 +40,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _main_main_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main/main.component */ "./src/app/main/main.component.ts");
 /* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
-/* harmony import */ var _authorization_guard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./authorization.guard */ "./src/app/authorization.guard.ts");
-/* harmony import */ var _help_help_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./help/help.component */ "./src/app/help/help.component.ts");
-/* harmony import */ var _task_task_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./task/task.component */ "./src/app/task/task.component.ts");
-
+/* harmony import */ var _help_help_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./help/help.component */ "./src/app/help/help.component.ts");
+/* harmony import */ var _task_task_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./task/task.component */ "./src/app/task/task.component.ts");
 
 
 
@@ -65,21 +63,18 @@ var routes = [
     {
         path: 'main',
         component: _main_main_component__WEBPACK_IMPORTED_MODULE_4__["MainComponent"],
-        canActivate: [_authorization_guard__WEBPACK_IMPORTED_MODULE_7__["AuthorizationGuard"]]
     },
     {
         path: 'profile',
         component: _profile_profile_component__WEBPACK_IMPORTED_MODULE_5__["ProfileComponent"],
-        canActivate: [_authorization_guard__WEBPACK_IMPORTED_MODULE_7__["AuthorizationGuard"]]
     },
     {
         path: 'help',
-        component: _help_help_component__WEBPACK_IMPORTED_MODULE_8__["HelpComponent"],
+        component: _help_help_component__WEBPACK_IMPORTED_MODULE_7__["HelpComponent"],
     },
     {
         path: 'main/tasks/:id',
-        component: _task_task_component__WEBPACK_IMPORTED_MODULE_9__["TaskComponent"],
-        canActivate: [_authorization_guard__WEBPACK_IMPORTED_MODULE_7__["AuthorizationGuard"]]
+        component: _task_task_component__WEBPACK_IMPORTED_MODULE_8__["TaskComponent"],
     },
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -448,6 +443,7 @@ var LoginComponent = /** @class */ (function () {
             username: '',
             password: ''
         };
+        this.token = null;
     };
     LoginComponent.prototype.register = function () {
         this.router.navigate(['register']);
@@ -456,7 +452,6 @@ var LoginComponent = /** @class */ (function () {
         var _this = this;
         this.appUser.loginUser(this.input).subscribe(function (response) {
             _this.user.username = _this.input.username;
-            _this.token.push(response);
             sessionStorage.setItem('token', JSON.stringify(_this.token));
             _this.appUser.setLoggedIn(true);
             _this.appUser.getUser(_this.input.username).subscribe(function (data) {
@@ -510,7 +505,7 @@ module.exports = "\r\n\r\n\r\n/*# sourceMappingURL=data:application/json;base64,
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n                    \n                    <label (click)=\"todoClicked(todo)\">{{todo.title}}</label>\n                            \n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>\n\n<script>\n        // Get the modal\n        var modal = document.getElementById('lightboxActive');\n        \n        // Get the image and insert it inside the modal - use its \"alt\" text as a caption\n        var img = document.getElementById('lightbox');\n        var modalImg = document.getElementById(\"img\");\n        img.onclick = function(){\n          modal.style.display = \"block\";\n          modalImg.src = this.src;\n        }\n        \n        // Get the <span> element that closes the modal\n        var span = document.getElementsByClassName(\"close\")[0];\n        \n        // When the user clicks on <span> (x), close the modal\n        span.onclick = function() { \n          modal.style.display = \"none\";\n        }\n</script>\n<!-- <div class=\"row\">\n    <ul>\n        <li *ngFor=\"let todo of todos\">\n          <h3 *ngIf=\"todo.title\" (click)=\"todoClicked(todo)\">{{todo.title}}\n            <img *ngIf=\"todo.is_complete\" [src]=\"checkIcon\" height=\"20px\" width=\"20px\">\n          </h3>\n        </li>  \n    </ul>\n</div>\n\n<div class=\"row\" *ngIf=\"user.isSuperuser\">\n    <div class=\"form-group\">\n        <label for=\"creator\">Creator:</label>\n        <h4>{{username}}</h4>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"form-group\">\n        <label for=\"title\">What do you want to do?</label>\n        <input type=\"text\" class=\"form-control\" id=\"title\" [(ngModel)]=\"selectedTodo.title\" placeholder=\"Enter todo\">\n    </div>\n</div>\n\n\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.id\" (click)=\"updateTodo()\">Update</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"!selectedTodo.is_complete && selectedTodo.id\" (click)=\"completeTodo()\">Complete</button>\n<button class=\"btn btn-default mr-2\" *ngIf=\"selectedTodo.is_complete && selectedTodo.id\" (click)=\"inCompleteTodo()\">InComplete</button>\n<button class=\"btn btn-primary mr-2\" *ngIf=\"!selectedTodo.id\" (click)=\"createTodo()\">Create</button>\n<button class=\"btn btn-danger\" *ngIf=\"selectedTodo.id\" (click)=\"deleteTodo()\">Delete</button> -->"
+module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n                    \n                    <label (click)=\"todoClicked(todo)\">{{todo.title}}</label>\n                            \n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>"
 
 /***/ }),
 
@@ -585,7 +580,6 @@ var MainComponent = /** @class */ (function () {
         this.todoService.getTodo(todo.id).subscribe(function (data) {
             _this.selectedTodo = data;
             _this.taskClass.id = todo.id;
-            console.log(_this.taskClass.id);
             sessionStorage.setItem('task', JSON.stringify(data));
             _this.appUser.getUsername(_this.selectedTodo.user)
                 .subscribe(function (data) {
@@ -805,7 +799,7 @@ var ProfileComponent = /** @class */ (function () {
             _this.user.profileId = data[0].id.toString();
             _this.user.dateOfBirth = data[0].dateOfBirth;
             _this.user.profileImage = data[0].profileImage;
-            console.log(data);
+            console.log('Get user info successfull!');
         }, function (error) {
             console.log(error);
         });
@@ -827,7 +821,6 @@ var ProfileComponent = /** @class */ (function () {
     ProfileComponent.prototype.updateImage = function () {
         this.appUser.updateImage(this.user, this.fileToUpload).subscribe(function (data) {
             console.log('updated image');
-            console.log(data);
         }, function (error) {
             console.log(error);
         });
@@ -846,7 +839,6 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.updateDateOfBirth = function () {
         this.appUser.updateDateOfBirth(this.user).subscribe(function (data) {
-            console.log(data);
             console.log('updated dob');
         }, function (error) {
             console.log(error);
@@ -854,7 +846,6 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.updateInfo = function () {
         this.appUser.updateUserInfo(this.user, this.fileToUpload).subscribe(function (data) {
-            console.log(data);
             console.log('updated dob and image');
         }, function (error) {
             console.log(error);
@@ -934,7 +925,7 @@ var RegisterComponent = /** @class */ (function () {
     RegisterComponent.prototype.onRegister = function () {
         var _this = this;
         this.appUser.registerUser(this.input).subscribe(function (response) {
-            console.log(response);
+            console.log('Register successfully!');
             alert('User ' + _this.input.username + ' created.');
             _this.router.navigate(['']);
         }, function (error) {
@@ -996,7 +987,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"task.taskImage != null\" [src]=\"task.taskImage\">\n\n</div>\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n        <p *ngIf=\"error\" style=\"color: red; font-weight: bolder;\">Please re-upload a valid image file!</p>\n        <h1 (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n\n        <img (click)=\"enlargeImage()\" *ngIf=\"task.taskImage != null\" [src]=\"task.taskImage\">\n\n    </div>\n\n</section>\n"
+module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"selectedTask.taskImage != null\" [src]=\"selectedTask.taskImage\">\n\n</div>\n\n<div *ngIf=\"delete\" class=\"delete-alert\" >\n    <p>Do you want to delete this image?</p>\n    <div class=\"buttons\">\n    <button (click)= selectedYes()>Yes</button>\n    <button (click)=\"selectedNo()\">No</button>\n    </div>\n</div>\n\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n        <p *ngIf=\"errorImage\" style=\"color: red; font-weight: bolder;\">One or more files is not an image file, please re-upload!</p>\n        <p *ngIf=\"errorLength\" style=\"color: red; font-weight: bolder;\">Please re-upload one or more valid file!</p>\n        <h1 (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n        <div class=\"image-field\" *ngFor=\"let taskImage of taskImages\">\n                \n            <img (click)=\"enlargeImage(taskImage)\" *ngIf=\"taskImage.taskImage != null\" [src]=\"taskImage.taskImage\" />\n            <span (click)=\"deleteImage(taskImage)\" class=\"delete\">&times;</span>\n        </div>\n    </div>\n\n</section>\n"
 
 /***/ }),
 
@@ -1029,17 +1020,19 @@ var TaskComponent = /** @class */ (function () {
         this.appUser = appUser;
         this.router = router;
         this.isLoaded = false;
-        this.taskId = { id: null, taskImage: null };
+        this.taskImages = [];
         this.editing = false;
-        this.error = false;
+        this.errorImage = false;
+        this.errorLength = false;
         this.enlarge = false;
+        this.delete = false;
     }
     TaskComponent.prototype.ngOnInit = function () {
         if (sessionStorage.getItem('currentUser') != null) {
             this.appUser.setLoggedIn(true);
             if (sessionStorage.getItem('task') != null)
                 this.task = JSON.parse(sessionStorage.getItem('task'));
-            console.log(this.task);
+            console.log('Get task detail from session storage succeed');
             this.getTask(this.task.id);
             if (this.task != null)
                 this.isLoaded = true;
@@ -1057,20 +1050,35 @@ var TaskComponent = /** @class */ (function () {
     TaskComponent.prototype.editTitle = function () {
         this.editing = true;
     };
-    TaskComponent.prototype.enlargeImage = function () {
+    TaskComponent.prototype.enlargeImage = function (task) {
         this.enlarge = true;
+        this.selectedTask = task;
+    };
+    TaskComponent.prototype.deleteImage = function (task) {
+        this.delete = true;
+        this.selectedTask = task;
     };
     TaskComponent.prototype.dropped = function (event) {
         event.preventDefault();
         this.files = event.dataTransfer.files;
-        if (this.files.length > 0 && this.files[0].type.includes("image/") == true) {
-            this.error = false;
-            console.log(this.files);
-            this.uploadImage(this.files[0], this.files[0].name);
+        if (this.files.length > 0) {
+            this.errorLength = false;
+            for (var _i = 0, _a = this.files; _i < _a.length; _i++) {
+                var file = _a[_i];
+                if (file.type.includes("image/") == true) {
+                    this.errorImage = false;
+                    console.log(this.files);
+                    this.uploadImage(file, file.name);
+                }
+                else {
+                    this.errorImage = true;
+                    console.log(this.files);
+                }
+            }
         }
-        else
-            this.error = true;
-        console.log(this.files);
+        else {
+            this.errorLength = true;
+        }
     };
     TaskComponent.prototype.uploadImage = function (file, path) {
         var _this = this;
@@ -1084,15 +1092,24 @@ var TaskComponent = /** @class */ (function () {
         var _this = this;
         this.todoService.getTodo(id).subscribe(function (data) {
             _this.task = data;
-            console.log(_this.task);
+            console.log('Get task detail succeed');
             _this.appUser.getUsername(_this.task.user)
                 .subscribe(function (data) {
                 _this.task.username = data[0].username.toString();
             });
+            _this.getImage(data.id);
             if (_this.task.is_complete)
                 _this.task.status = 'Completed';
             else
                 _this.task.status = 'Has not completed';
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    TaskComponent.prototype.getImage = function (id) {
+        var _this = this;
+        this.todoService.getImage(id).subscribe(function (data) {
+            _this.taskImages = data;
         }, function (error) {
             console.log(error);
         });
@@ -1122,6 +1139,19 @@ var TaskComponent = /** @class */ (function () {
     };
     TaskComponent.prototype.closeEnlarge = function () {
         this.enlarge = false;
+    };
+    TaskComponent.prototype.selectedYes = function () {
+        var _this = this;
+        this.todoService.deleteTaskImage(this.selectedTask.id).subscribe(function (data) {
+            console.log('image deleted');
+            _this.getImage(_this.task.id);
+            _this.delete = false;
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    TaskComponent.prototype.selectedNo = function () {
+        this.delete = false;
     };
     TaskComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1195,8 +1225,15 @@ var TodoService = /** @class */ (function () {
     };
     TodoService.prototype.todoImage = function (id, fileToUpload, name) {
         var formData = new FormData();
+        formData.append('task', id);
         formData.append('taskImage', fileToUpload, name);
-        return this.http.patch(this.baseUrl + '/api/todos/' + id + '/', formData, { headers: this.HttpHeaders });
+        return this.http.post(this.baseUrl + '/api/taskimage/', formData, { headers: this.HttpHeaders });
+    };
+    TodoService.prototype.getImage = function (id) {
+        return this.http.get(this.baseUrl + '/api/taskimage/?task=' + id, { headers: this.HttpHeaders });
+    };
+    TodoService.prototype.deleteTaskImage = function (id) {
+        return this.http.delete(this.baseUrl + '/api/taskimage/' + id + '/', { headers: this.HttpHeaders });
     };
     TodoService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1265,7 +1302,7 @@ var UserService = /** @class */ (function () {
         return this.http.post(this.baseUrl + '/api/users/', userData, { headers: this.HttpHeaders });
     };
     UserService.prototype.loginUser = function (userData) {
-        return this.http.post(this.baseUrl + '/api/auth/', userData);
+        return this.http.post(this.baseUrl + '/api/auth/', userData, { headers: this.HttpHeaders });
     };
     UserService.prototype.updateName = function (userData) {
         var body = { first_name: userData.firstName.toString(), last_name: userData.lastName.toString() };
@@ -1289,12 +1326,12 @@ var UserService = /** @class */ (function () {
     UserService.prototype.getCurrentUser = function () {
         if (sessionStorage.getItem('currentUser') != null)
             this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-        console.log(this.currentUser);
-        this.user.id = this.currentUser[this.currentUser.length - 1].id;
-        this.user.firstName = this.currentUser[this.currentUser.length - 1].first_name;
-        this.user.lastName = this.currentUser[this.currentUser.length - 1].last_name;
-        this.user.username = this.currentUser[this.currentUser.length - 1].username;
-        this.user.isSuperuser = this.currentUser[this.currentUser.length - 1].is_superuser;
+        console.log('Get user info from session storage successfull!');
+        this.user.id = this.currentUser[0].id;
+        this.user.firstName = this.currentUser[0].first_name;
+        this.user.lastName = this.currentUser[0].last_name;
+        this.user.username = this.currentUser[0].username;
+        this.user.isSuperuser = this.currentUser[0].is_superuser;
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1393,7 +1430,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\example\todolist\website\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\example\todolist\WEBSITE\src\main.ts */"./src/main.ts");
 
 
 /***/ })

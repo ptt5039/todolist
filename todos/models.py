@@ -14,8 +14,7 @@ def uploaded_task_image(instance, filename):
 class Todo(models.Model):
     title = models.CharField(blank=True, max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    is_complete = models.BooleanField(default=False)
-    taskImage = models.ImageField(upload_to= uploaded_task_image, blank=True, null=True)
+    is_complete = models.BooleanField(default=False)    
 
     class Meta:
         default_related_name = 'todos'
@@ -28,6 +27,10 @@ class Todo(models.Model):
 def scramble_uploaded_filename(instance, filename):
     extension = filename.split(".")[-1]
     return "{}.{}".format(uuid.uuid4(), extension)
+
+class TaskImage(models.Model):
+    task = models.ForeignKey(Todo, on_delete=models.CASCADE)
+    taskImage = models.ImageField(upload_to= uploaded_task_image, blank=True, null=True)
 
 class UserInfo(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)

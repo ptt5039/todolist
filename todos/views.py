@@ -4,3 +4,9 @@ from django.views.generic.base import TemplateView
 class HomePageView(TemplateView):
     def get(self, request, **kwargs):
         return render(request, 'index.html', context=None)
+
+def index(request, path=''):
+    """
+    Renders the Angular2 SPA
+    """
+    return render(request, 'index.html')
