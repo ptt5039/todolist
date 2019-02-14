@@ -10,12 +10,7 @@ from todos.api.routers import router
 from rest_framework.authtoken.views import ObtainAuthToken
 
 urlpatterns = [
-#     path('', include('todos.urls')),
-#     path('main/', include('todos.urls')),
-#     path('profile/', include('todos.urls')),
-#     path('help/', include('todos.urls')),
-#     path('register/', include('todos.urls')),
-#     path('main/tasks/<int>/', include('todos.urls')),
+    path('', include('todos.urls')),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api/auth/', ObtainAuthToken.as_view()),
