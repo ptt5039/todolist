@@ -402,7 +402,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"sign-in-wrapper\">\n    <form class=\"frm\">\n        <h1>Login</h1>\n        <input [(ngModel)]=\"input.username\" name=\"username\"\n            type=\"text\" placeholder=\"Username\">\n        <input [(ngModel)]=\"input.password\" name=\"password\"\n            type=\"password\" placeholder=\"Password\" (keydown.enter)=\"onLogin()\">\n        <a class=\"btn btn-link\" (click)=\"register()\">Register User</a>\n        <button (click)=\"onLogin()\">Login</button>\n    </form>\n</div>\n"
+module.exports = "<div class=\"sign-in-wrapper\">\n    <form class=\"frm\">\n        <h1>Login</h1>\n        <input [(ngModel)]=\"input.username\" name=\"username\"\n            type=\"text\" placeholder=\"Username\">\n        <input [(ngModel)]=\"input.password\" name=\"password\"\n            type=\"password\" placeholder=\"Password\" >\n        <a class=\"btn btn-link\" (click)=\"register()\">Register User</a>\n        <button (click)=\"onLogin()\">Login</button>\n    </form>\n</div>\n"
 
 /***/ }),
 
@@ -422,6 +422,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../user */ "./src/app/user.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
+
 
 
 
@@ -429,7 +431,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(cookie, appUser, router, user) {
+    function LoginComponent(todoService, cookie, appUser, router, user) {
+        this.todoService = todoService;
         this.cookie = cookie;
         this.appUser = appUser;
         this.router = router;
@@ -462,7 +465,9 @@ var LoginComponent = /** @class */ (function () {
         this.appUser.loginUser(this.input).subscribe(function (response) {
             _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
             _this.user.username = _this.input.username;
-            _this.cookie.set('5Es85xcdwda65sd12sdsaasdascxa654564982xc21', _this.appUser.encryptData(response.token), _this.expiredValue);
+            _this.appUser.myToken = 'Token ' + response.token;
+            _this.todoService.myToken = 'Token ' + response.token;
+            _this.cookie.set('5Es85xcdwda65sd12sdsaasdascxa654564982xc21', _this.appUser.encryptData('Token ' + response.token), _this.expiredValue);
             _this.cookie.set('isAuthorized', 'true', _this.expiredValue);
             _this.appUser.setLoggedIn(true);
             _this.appUser.getUser(_this.input.username).subscribe(function (data) {
@@ -491,7 +496,8 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./login.component.html */ "./src/app/login/login.component.html"),
             styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/login/login.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_todo_service__WEBPACK_IMPORTED_MODULE_6__["TodoService"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"],
             _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
             _user__WEBPACK_IMPORTED_MODULE_3__["User"]])
@@ -566,6 +572,8 @@ var MainComponent = /** @class */ (function () {
             this.appUser.getCurrentUser();
             this.cookie.delete('ti');
             this.appUser.setLoggedIn(true);
+            this.todoService.myToken = this.appUser.getCurrentToken();
+            this.appUser.myToken = this.appUser.getCurrentToken();
             if (this.cookie.get('isSuper') === 'true')
                 this.user.isSuperuser = true;
             else
@@ -782,7 +790,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"profile\">\n  <div class=\"input\">\n    <button (click)=\"goBack()\">Go Back</button>\n    <div class=\"col-12\">\n      <h1 style =\"text-align:center;\">Profile, {{user.username}}!</h1>    \n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"firstName\">First Name</label>\n      <input type=\"text\"  class=\"form-control\" id=\"firstName\" [(ngModel)]=\"user.firstName\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"lastName\">Last Name</label>\n      <input type=\"text\"  class=\"form-control\" id=\"lastName\" [(ngModel)]=\"user.lastName\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"dateOfBirth\">Date of Birth</label>\n      <input type=\"date\" class=\"form-control\" id=\"dateOfBirth\" [(ngModel)]=\"user.dateOfBirth\">\n    </div>\n\n    <div class=\"form-group\">\n        <label for=\"profileImage\">Profile Image:</label>\n        <img *ngIf=\"user.profileImage != null\" [src]=\"user.profileImage\" height=\"150px\" width=\"150px\">\n        <input type=\"file\" class=\"form-control\"  id=\"profileImage\" (change)=\"handleFileInput($event.target.files)\">\n      </div>\n\n    <button (click)=\"updateUserInfo()\">Update</button>\n  </div>\n</section>"
+module.exports = "<section class=\"profile\">\n  <div class=\"input\">\n    <button (click)=\"goBack()\">Go Back</button>\n    <div class=\"col-12\">\n      <h1 style =\"text-align:center;\">Profile, {{user.username}}!</h1>    \n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"firstName\">First Name</label>\n      <input type=\"text\"  class=\"form-control\" id=\"firstName\" [(ngModel)]=\"user.firstName\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"lastName\">Last Name</label>\n      <input type=\"text\"  class=\"form-control\" id=\"lastName\" [(ngModel)]=\"user.lastName\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"dateOfBirth\">Date of Birth</label>\n      <input type=\"date\" class=\"form-control\" id=\"dateOfBirth\" [(ngModel)]=\"user.dateOfBirth\">\n    </div>\n\n    <div class=\"form-group\">\n        <label for=\"profileImage\">Profile Image:</label>\n        <img *ngIf=\"user.profileImage != null\" [src]=\"user.profileImage\" \n          height=\"150px\" width=\"150px\">\n        <input type=\"file\" class=\"form-control\"  id=\"profileImage\" \n          (change)=\"handleFileInput($event.target.files)\">\n      </div>\n\n    <button (click)=\"updateUserInfo()\">Update</button>\n  </div>\n</section>"
 
 /***/ }),
 
@@ -819,6 +827,7 @@ var ProfileComponent = /** @class */ (function () {
         this.arrayData = [];
         if (this.cookie.get('isAuthorized') === 'true') {
             this.user.id = this.appUser.decryptData(this.cookie.get('ui'));
+            this.appUser.myToken = this.appUser.getCurrentToken();
             this.appUser.setLoggedIn(true);
             this.getUserInfo();
         }
@@ -848,7 +857,8 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.updateUserInfo = function () {
         this.updateUserName();
-        if (this.user.dateOfBirth == null && this.fileToUpload.type.includes('image/') == true)
+        if (this.user.dateOfBirth == null && this.fileToUpload.type
+            .includes('image/') == true)
             this.updateImage();
         else if (this.fileToUpload == null && this.user.dateOfBirth != null)
             this.updateDateOfBirth();
@@ -1027,7 +1037,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"selectedTask.taskImage != null\" [src]=\"selectedTask.taskImage\">\n\n</div>\n\n<div *ngIf=\"delete\" class=\"delete-alert\" >\n    <p>Do you want to delete this image?</p>\n    <div class=\"buttons\">\n    <button (click)= selectedYes()>Yes</button>\n    <button (click)=\"selectedNo()\">No</button>\n    </div>\n</div>\n\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <p *ngIf=\"errorImage\" style=\"color: red; font-weight: bolder;\">One or more files is not an image file, please re-upload!</p>\n        <p *ngIf=\"errorLength\" style=\"color: red; font-weight: bolder;\">Please re-upload one or more valid file!</p>\n        <h1 class=\"title\" (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n        <div class=\"image-field\" *ngFor=\"let taskImage of taskImages\">\n                \n            <img (click)=\"enlargeImage(taskImage)\" *ngIf=\"taskImage.taskImage != null\" [src]=\"taskImage.taskImage\" />\n            <span (click)=\"deleteImage(taskImage)\" class=\"delete\">&times;</span>\n        </div>\n    </div>\n\n</section>\n"
+module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"selectedTask.taskImage != null\" \n            [src]=\"selectedTask.taskImage\">\n\n</div>\n\n<div *ngIf=\"delete\" class=\"delete-alert\" >\n    <p>Do you want to delete this image?</p>\n    <div class=\"buttons\">\n    <button (click)= selectedYes()>Yes</button>\n    <button (click)=\"selectedNo()\">No</button>\n    </div>\n</div>\n\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <p *ngIf=\"errorImage\" style=\"color: red; font-weight: bolder;\">\n            One or more files is not an image file, please re-upload!</p>\n        <p *ngIf=\"errorLength\" style=\"color: red; font-weight: bolder;\">\n            Please re-upload one or more valid file!</p>\n        <h1 class=\"title\" (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n        <div class=\"image-field\" *ngFor=\"let taskImage of taskImages\">\n                \n            <img (click)=\"enlargeImage(taskImage)\" *ngIf=\"taskImage.taskImage != null\" \n                [src]=\"taskImage.taskImage\" />\n            <span (click)=\"deleteImage(taskImage)\" class=\"delete\">&times;</span>\n        </div>\n    </div>\n\n</section>\n"
 
 /***/ }),
 
@@ -1071,6 +1081,8 @@ var TaskComponent = /** @class */ (function () {
         this.delete = false;
         if (this.cookie.get('isAuthorized') === 'true' && this.cookie.get('ti')) {
             this.taskClass.id = this.appUser.decryptData(this.cookie.get('ti'));
+            this.todoService.myToken = this.appUser.getCurrentToken();
+            this.appUser.myToken = this.appUser.getCurrentToken();
             this.appUser.setLoggedIn(true);
             this.getTask(this.taskClass.id);
         }
@@ -1238,10 +1250,11 @@ var TodoService = /** @class */ (function () {
         this.http = http;
         this.user = user;
         this.appUser = appUser;
-        this.myToken = 'Token ' + this.appUser.getCurrentToken();
+        this.myToken = this.appUser.getCurrentToken();
         // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
+        this.myToken = this.appUser.getCurrentToken();
     }
     TodoService.prototype.getTodosByUser = function (userId) {
         return this.http.get(this.baseUrl + '/api/todos/?user=' + userId, { headers: this.HttpHeaders });
@@ -1322,11 +1335,12 @@ var UserService = /** @class */ (function () {
         this.http = http;
         this.user = user;
         this.cookie = cookie;
-        this.myToken = 'Token ' + this.getCurrentToken();
+        this.myToken = this.getCurrentToken();
         this.loggedInStatus = false;
         // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
+        this.myToken = this.getCurrentToken();
     }
     UserService.prototype.setLoggedIn = function (value) {
         this.loggedInStatus = value;
