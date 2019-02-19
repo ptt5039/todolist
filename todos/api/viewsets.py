@@ -55,8 +55,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filterset_class = UserFilter
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
 class UserInfoViewSet(viewsets.ModelViewSet):
     queryset = UserInfo.objects.all()
@@ -69,5 +69,5 @@ class TaskImageViewSet(viewsets.ModelViewSet):
     queryset = TaskImage.objects.all()
     serializer_class = TaskImageSerializer
     filterset_class = TaskImageFilter
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)

@@ -76,6 +76,10 @@ var routes = [
         path: 'main/tasks/:id',
         component: _task_task_component__WEBPACK_IMPORTED_MODULE_8__["TaskComponent"],
     },
+    {
+        path: '**',
+        component: _login_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"],
+    }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -430,12 +434,12 @@ var LoginComponent = /** @class */ (function () {
         this.appUser = appUser;
         this.router = router;
         this.user = user;
-        this.expiresValue = new Date();
+        this.expiredValue = new Date();
         this.input = {
             username: '',
             password: ''
         };
-        if (this.cookie.get('isAuthorized') == '1') {
+        if (this.cookie.get('isAuthorized') === 'true') {
             this.appUser.setLoggedIn(true);
             this.router.navigate(['main']);
         }
@@ -456,9 +460,10 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.onLogin = function () {
         var _this = this;
         this.appUser.loginUser(this.input).subscribe(function (response) {
-            _this.expiresValue.setMinutes(_this.expiresValue.getMinutes() + 10);
+            _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
             _this.user.username = _this.input.username;
-            _this.cookie.set('isAuthorized', JSON.stringify(1));
+            _this.cookie.set('5Es85xcdwda65sd12sdsaasdascxa654564982xc21', _this.appUser.encryptData(response.token), _this.expiredValue);
+            _this.cookie.set('isAuthorized', 'true', _this.expiredValue);
             _this.appUser.setLoggedIn(true);
             _this.appUser.getUser(_this.input.username).subscribe(function (data) {
                 _this.user.id = data[0].id;
@@ -466,11 +471,11 @@ var LoginComponent = /** @class */ (function () {
                 _this.user.lastName = data[0].last_name;
                 _this.user.username = data[0].username;
                 _this.user.isSuperuser = data[0].is_superuser;
-                _this.cookie.set('ui', JSON.stringify(_this.user.id));
+                _this.cookie.set('ui', _this.appUser.encryptData(_this.user.id), _this.expiredValue);
                 if (_this.user.isSuperuser)
-                    _this.cookie.set('isSuper', JSON.stringify(1));
+                    _this.cookie.set('isSuper', 'true', _this.expiredValue);
                 else
-                    _this.cookie.set('isSuper', JSON.stringify(0));
+                    _this.cookie.set('isSuper', 'false', _this.expiredValue);
                 _this.router.navigate(['main']);
             }, function (error) {
                 console.log(error);
@@ -557,15 +562,17 @@ var MainComponent = /** @class */ (function () {
         this.todos = [];
         this.checkIcon = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com/media/check.png';
         this.expiredValue = new Date();
-        if (this.cookie.get('isAuthorized') == '1') {
+        if (this.cookie.get('isAuthorized') === 'true') {
+            this.appUser.getCurrentUser();
+            this.cookie.delete('ti');
             this.appUser.setLoggedIn(true);
-            if (JSON.parse(this.cookie.get('isSuper')) == 1)
+            if (this.cookie.get('isSuper') === 'true')
                 this.user.isSuperuser = true;
             else
                 this.user.isSuperuser = false;
             this.newTodo = { title: '' };
             this.taskClass.id = null;
-            this.cookie.delete('ti');
+            this.getTodos();
         }
         else {
             this.appUser.setLoggedIn(false);
@@ -573,8 +580,6 @@ var MainComponent = /** @class */ (function () {
         }
     }
     MainComponent.prototype.ngOnInit = function () {
-        this.appUser.getCurrentUser();
-        this.getTodos();
     };
     MainComponent.prototype.editTodo = function (todo) {
         todo.editing = true;
@@ -605,8 +610,8 @@ var MainComponent = /** @class */ (function () {
                 .subscribe(function (data) {
                 _this.username = data[0].username.toString();
             });
-            _this.expiredValue.setMinutes(_this.expiredValue.getMinutes() + 10);
-            _this.cookie.set('ti', JSON.stringify(data.id));
+            _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
+            _this.cookie.set('ti', _this.appUser.encryptData(data.id), _this.expiredValue);
             _this.router.navigate(['/main/tasks', todo.id]);
         }, function (error) {
             console.log(error);
@@ -668,6 +673,8 @@ var MainComponent = /** @class */ (function () {
         this.cookie.delete('isAuthorized');
         this.cookie.delete('ui');
         this.cookie.delete('isSuper');
+        this.cookie.delete('ti');
+        this.cookie.delete('5Es85xcdwda65sd12sdsaasdascxa654564982xc21');
         this.appUser.setLoggedIn(false);
     };
     MainComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -810,8 +817,8 @@ var ProfileComponent = /** @class */ (function () {
         this.error = false;
         this.fileToUpload = null;
         this.arrayData = [];
-        if (this.cookie.get('isAuthorized') == '1') {
-            this.user.id = this.cookie.get('ui');
+        if (this.cookie.get('isAuthorized') === 'true') {
+            this.user.id = this.appUser.decryptData(this.cookie.get('ui'));
             this.appUser.setLoggedIn(true);
             this.getUserInfo();
         }
@@ -1020,7 +1027,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"selectedTask.taskImage != null\" [src]=\"selectedTask.taskImage\">\n\n</div>\n\n<div *ngIf=\"delete\" class=\"delete-alert\" >\n    <p>Do you want to delete this image?</p>\n    <div class=\"buttons\">\n    <button (click)= selectedYes()>Yes</button>\n    <button (click)=\"selectedNo()\">No</button>\n    </div>\n</div>\n\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n        <p *ngIf=\"errorImage\" style=\"color: red; font-weight: bolder;\">One or more files is not an image file, please re-upload!</p>\n        <p *ngIf=\"errorLength\" style=\"color: red; font-weight: bolder;\">Please re-upload one or more valid file!</p>\n        <h1 (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n        <div class=\"image-field\" *ngFor=\"let taskImage of taskImages\">\n                \n            <img (click)=\"enlargeImage(taskImage)\" *ngIf=\"taskImage.taskImage != null\" [src]=\"taskImage.taskImage\" />\n            <span (click)=\"deleteImage(taskImage)\" class=\"delete\">&times;</span>\n        </div>\n    </div>\n\n</section>\n"
+module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"selectedTask.taskImage != null\" [src]=\"selectedTask.taskImage\">\n\n</div>\n\n<div *ngIf=\"delete\" class=\"delete-alert\" >\n    <p>Do you want to delete this image?</p>\n    <div class=\"buttons\">\n    <button (click)= selectedYes()>Yes</button>\n    <button (click)=\"selectedNo()\">No</button>\n    </div>\n</div>\n\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <p *ngIf=\"errorImage\" style=\"color: red; font-weight: bolder;\">One or more files is not an image file, please re-upload!</p>\n        <p *ngIf=\"errorLength\" style=\"color: red; font-weight: bolder;\">Please re-upload one or more valid file!</p>\n        <h1 class=\"title\" (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n        <div class=\"image-field\" *ngFor=\"let taskImage of taskImages\">\n                \n            <img (click)=\"enlargeImage(taskImage)\" *ngIf=\"taskImage.taskImage != null\" [src]=\"taskImage.taskImage\" />\n            <span (click)=\"deleteImage(taskImage)\" class=\"delete\">&times;</span>\n        </div>\n    </div>\n\n</section>\n"
 
 /***/ }),
 
@@ -1062,8 +1069,8 @@ var TaskComponent = /** @class */ (function () {
         this.errorLength = false;
         this.enlarge = false;
         this.delete = false;
-        if (this.cookie.get('isAuthorized') == '1') {
-            this.taskClass.id = this.cookie.get('ti');
+        if (this.cookie.get('isAuthorized') === 'true' && this.cookie.get('ti')) {
+            this.taskClass.id = this.appUser.decryptData(this.cookie.get('ti'));
             this.appUser.setLoggedIn(true);
             this.getTask(this.taskClass.id);
         }
@@ -1220,19 +1227,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
+
 
 
 
 
 var TodoService = /** @class */ (function () {
-    function TodoService(http, user) {
+    function TodoService(http, user, appUser) {
         this.http = http;
         this.user = user;
+        this.appUser = appUser;
+        this.myToken = 'Token ' + this.appUser.getCurrentToken();
         // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
-        this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': 'Token ebd1b536f6acef41d13946aa7605f9c6bc03ce35' });
-        // this.appUser.getCurrentToken();
-        // console.log(this.HttpHeaders.get('Authorization'))
+        this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
     }
     TodoService.prototype.getTodosByUser = function (userId) {
         return this.http.get(this.baseUrl + '/api/todos/?user=' + userId, { headers: this.HttpHeaders });
@@ -1275,7 +1284,8 @@ var TodoService = /** @class */ (function () {
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
-            _user__WEBPACK_IMPORTED_MODULE_3__["User"]])
+            _user__WEBPACK_IMPORTED_MODULE_3__["User"],
+            _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"]])
     ], TodoService);
     return TodoService;
 }());
@@ -1299,6 +1309,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var crypto_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
+/* harmony import */ var crypto_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(crypto_js__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -1309,10 +1322,11 @@ var UserService = /** @class */ (function () {
         this.http = http;
         this.user = user;
         this.cookie = cookie;
+        this.myToken = 'Token ' + this.getCurrentToken();
         this.loggedInStatus = false;
         // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
-        this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': 'Token ebd1b536f6acef41d13946aa7605f9c6bc03ce35' });
+        this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
     }
     UserService.prototype.setLoggedIn = function (value) {
         this.loggedInStatus = value;
@@ -1366,8 +1380,8 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.getCurrentUser = function () {
         var _this = this;
-        if (this.cookie.get('isAuthorized') == '1')
-            this.currentUser = this.cookie.get('ui');
+        if (this.cookie.get('isAuthorized') === 'true')
+            this.currentUser = this.decryptData(this.cookie.get('ui'));
         this.getUserById(this.currentUser).subscribe(function (data) {
             _this.user.id = data.id;
             _this.user.firstName = data.first_name;
@@ -1375,6 +1389,29 @@ var UserService = /** @class */ (function () {
             _this.user.username = data.username;
             _this.user.isSuperuser = data.is_superuser;
         });
+    };
+    UserService.prototype.encryptData = function (data) {
+        try {
+            return crypto_js__WEBPACK_IMPORTED_MODULE_5__["AES"].encrypt(data.toString(), this.user.secretKey).toString();
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+    UserService.prototype.decryptData = function (data) {
+        try {
+            var bytes = crypto_js__WEBPACK_IMPORTED_MODULE_5__["AES"].decrypt(data, this.user.secretKey);
+            if (bytes.toString()) {
+                return bytes.toString(crypto_js__WEBPACK_IMPORTED_MODULE_5__["enc"].Utf8);
+            }
+            return data;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+    UserService.prototype.getCurrentToken = function () {
+        return this.decryptData(this.cookie.get('5Es85xcdwda65sd12sdsaasdascxa654564982xc21'));
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1405,6 +1442,7 @@ var User = /** @class */ (function () {
     function User() {
         this.id = null;
         this.profileId = 0;
+        this.secretKey = '991991170794';
     }
     return User;
 }());
