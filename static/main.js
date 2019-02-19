@@ -595,6 +595,7 @@ var MainComponent = /** @class */ (function () {
         }
     }
     MainComponent.prototype.ngOnInit = function () {
+        this.getTodos();
     };
     MainComponent.prototype.editTodo = function (todo) {
         todo.editing = true;
@@ -1354,7 +1355,6 @@ var UserService = /** @class */ (function () {
         if (this.cookie.get('5Es85xcdwda65sd12sdsaasdascxa654564982xc21') != null)
             this.myToken = this.getCurrentToken();
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
-        console.log(this.myToken);
     }
     UserService.prototype.ngOnInit = function () {
         if (this.cookie.get('5Es85xcdwda65sd12sdsaasdascxa654564982xc21') != null)
