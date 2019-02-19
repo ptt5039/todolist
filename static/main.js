@@ -423,6 +423,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
 
 
 
@@ -465,6 +467,9 @@ var LoginComponent = /** @class */ (function () {
         this.appUser.loginUser(this.input).subscribe(function (response) {
             _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
             _this.user.username = _this.input.username;
+            _this.user.token = 'Token ' + response.token;
+            _this.appUser.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_7__["HttpHeaders"]({ 'Authorization': _this.user.token });
+            _this.todoService.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_7__["HttpHeaders"]({ 'Authorization': _this.user.token });
             _this.appUser.myToken = 'Token ' + response.token;
             _this.todoService.myToken = 'Token ' + response.token;
             _this.cookie.set('5Es85xcdwda65sd12sdsaasdascxa654564982xc21', _this.appUser.encryptData('Token ' + response.token), _this.expiredValue);
@@ -484,6 +489,8 @@ var LoginComponent = /** @class */ (function () {
                 _this.router.navigate(['main']);
             }, function (error) {
                 console.log(error);
+                _this.cookie.delete('5Es85xcdwda65sd12sdsaasdascxa654564982xc21');
+                _this.cookie.delete('isAuthorized');
             });
         }, function (error) {
             console.log('error', error);
@@ -1240,21 +1247,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user */ "./src/app/user.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
 
 
 
 
 
 var TodoService = /** @class */ (function () {
-    function TodoService(http, user, appUser) {
+    function TodoService(http, user, appUser, cookie) {
         this.http = http;
         this.user = user;
         this.appUser = appUser;
-        this.myToken = this.appUser.getCurrentToken();
+        this.cookie = cookie;
+        this.myToken = this.user.token;
         // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
+        if (this.cookie.get('5Es85xcdwda65sd12sdsaasdascxa654564982xc21') != null)
+            this.myToken = this.appUser.getCurrentToken();
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
-        this.myToken = this.appUser.getCurrentToken();
     }
     TodoService.prototype.getTodosByUser = function (userId) {
         return this.http.get(this.baseUrl + '/api/todos/?user=' + userId, { headers: this.HttpHeaders });
@@ -1298,7 +1309,8 @@ var TodoService = /** @class */ (function () {
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
             _user__WEBPACK_IMPORTED_MODULE_3__["User"],
-            _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"]])
+            _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"]])
     ], TodoService);
     return TodoService;
 }());
@@ -1335,13 +1347,20 @@ var UserService = /** @class */ (function () {
         this.http = http;
         this.user = user;
         this.cookie = cookie;
-        this.myToken = this.getCurrentToken();
+        this.myToken = this.user.token;
         this.loggedInStatus = false;
         // baseUrl = 'http://127.0.0.1:8000';
         this.baseUrl = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com';
+        if (this.cookie.get('5Es85xcdwda65sd12sdsaasdascxa654564982xc21') != null)
+            this.myToken = this.getCurrentToken();
         this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
-        this.myToken = this.getCurrentToken();
+        console.log(this.myToken);
     }
+    UserService.prototype.ngOnInit = function () {
+        if (this.cookie.get('5Es85xcdwda65sd12sdsaasdascxa654564982xc21') != null)
+            this.myToken = this.getCurrentToken();
+        this.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': this.myToken });
+    };
     UserService.prototype.setLoggedIn = function (value) {
         this.loggedInStatus = value;
     };
