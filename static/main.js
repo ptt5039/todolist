@@ -627,13 +627,9 @@ var MainComponent = /** @class */ (function () {
     MainComponent.prototype.todoClicked = function (todo) {
         var _this = this;
         this.todoService.getTodo(todo.id).subscribe(function (data) {
-            _this.selectedTodo = data;
-            _this.taskClass.id = data.id;
+            // this.selectedTodo = data;
+            //   this.taskClass.id = data.id;
             _this.viewTask = true;
-            _this.appUser.getUsername(_this.selectedTodo.user)
-                .subscribe(function (data) {
-                _this.username = data[0].username.toString();
-            });
             _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
             _this.cookie.set('ti', _this.appUser.encryptData(data.id), _this.expiredValue, '/');
             _this.cookie.set('taskview', 'true', _this.expiredValue, '/');
