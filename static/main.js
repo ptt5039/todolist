@@ -63,6 +63,12 @@ var routes = [
     {
         path: 'main',
         component: _main_main_component__WEBPACK_IMPORTED_MODULE_4__["MainComponent"],
+        children: [
+            {
+                path: 'tasks/:id',
+                component: _task_task_component__WEBPACK_IMPORTED_MODULE_8__["TaskComponent"],
+            },
+        ]
     },
     {
         path: 'profile',
@@ -71,10 +77,6 @@ var routes = [
     {
         path: 'help',
         component: _help_help_component__WEBPACK_IMPORTED_MODULE_7__["HelpComponent"],
-    },
-    {
-        path: 'main/tasks/:id',
-        component: _task_task_component__WEBPACK_IMPORTED_MODULE_8__["TaskComponent"],
     },
     {
         path: '**',
@@ -238,6 +240,7 @@ var AppModule = /** @class */ (function () {
                 _user_service__WEBPACK_IMPORTED_MODULE_12__["UserService"],
                 _todo_service__WEBPACK_IMPORTED_MODULE_15__["TodoService"],
                 _task__WEBPACK_IMPORTED_MODULE_20__["Task"],
+                _main_main_component__WEBPACK_IMPORTED_MODULE_8__["MainComponent"],
             ],
             bootstrap: [
                 _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]
@@ -472,8 +475,8 @@ var LoginComponent = /** @class */ (function () {
             _this.todoService.HttpHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_7__["HttpHeaders"]({ 'Authorization': _this.user.token });
             _this.appUser.myToken = 'Token ' + response.token;
             _this.todoService.myToken = 'Token ' + response.token;
-            _this.cookie.set('5Es85xcdwda65sd12sdsaasdascxa654564982xc21', _this.appUser.encryptData('Token ' + response.token), _this.expiredValue);
-            _this.cookie.set('isAuthorized', 'true', _this.expiredValue);
+            _this.cookie.set('5Es85xcdwda65sd12sdsaasdascxa654564982xc21', _this.appUser.encryptData('Token ' + response.token), _this.expiredValue, '/');
+            _this.cookie.set('isAuthorized', 'true', _this.expiredValue, '/');
             _this.appUser.setLoggedIn(true);
             _this.appUser.getUser(_this.input.username).subscribe(function (data) {
                 _this.user.id = data[0].id;
@@ -481,11 +484,11 @@ var LoginComponent = /** @class */ (function () {
                 _this.user.lastName = data[0].last_name;
                 _this.user.username = data[0].username;
                 _this.user.isSuperuser = data[0].is_superuser;
-                _this.cookie.set('ui', _this.appUser.encryptData(_this.user.id), _this.expiredValue);
+                _this.cookie.set('ui', _this.appUser.encryptData(_this.user.id), _this.expiredValue, '/');
                 if (_this.user.isSuperuser)
-                    _this.cookie.set('isSuper', 'true', _this.expiredValue);
+                    _this.cookie.set('isSuper', 'true', _this.expiredValue, '/');
                 else
-                    _this.cookie.set('isSuper', 'false', _this.expiredValue);
+                    _this.cookie.set('isSuper', 'false', _this.expiredValue, '/');
                 _this.router.navigate(['main']);
             }, function (error) {
                 console.log(error);
@@ -534,7 +537,7 @@ module.exports = "\r\n\r\n\r\n/*# sourceMappingURL=data:application/json;base64,
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n<app-nav></app-nav>\n<section>\n\n<section class=\"todoapp\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\" \n                [class.editing]=\"todo.editing\">\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n                    \n                    <label (click)=\"todoClicked(todo)\">{{todo.title}}</label>\n                            \n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>"
+module.exports = "<div class=\"task-container\" *ngIf=\"viewTask\" >\n    <div (click)=\"closeView()\" class=\"view\"></div>\n    <app-task class=\"main-task\"></app-task>\n</div>\n<section [class.task-view]=\"viewTask\">\n    <app-nav></app-nav>\n<section>\n\n\n<section class=\"todoapp\" [class.task-view]=\"viewTask\">\n\n    <div class=\"input\">\n        <h1>Todos</h1>\n\n        <input class=\"new-todo\" placeholder=\"What needs to be done?\" \n            autofocus=\"\" [(ngModel)]=\"newTodo.title\" (keyup.enter)=\"createTodo()\">\n    </div>\n\n    <section class=\"main\" *ngIf=\"todos.length > 0\">\n        <ul class=\"todo-list\">\n            <li *ngFor=\"let todo of todos\" [class.completed]=\"todo.is_complete\">\n                    <input class=\"toggle\" type=\"checkbox\" \n                        (click)=\"toggleCompletion(todo)\" [checked]=\"todo.is_complete\">\n                    \n                    <label (click)=\"todoClicked(todo)\">{{todo.title}}</label>\n                            \n                    <button class=\"destroy\" (click)=\"deleteTodo(todo)\"></button>\n            </li>\n        </ul>\n    </section>\n    <footer class=\"footer\" *ngIf=\"todos.length > 0\">\n        <span class=\"todo-count\">\n            <strong>{{todos.length}}</strong> \n                {{todos.length == 1 ? 'item' : 'items'}} left\n        </span>\n    </footer>\n    \n</section>\n\n<button class=\"sign-out\" (click)=\"logout()\">Sign out</button>"
 
 /***/ }),
 
@@ -556,6 +559,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _todo_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../todo.service */ "./src/app/todo.service.ts");
 /* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../task */ "./src/app/task.ts");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+
 
 
 
@@ -565,22 +570,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var MainComponent = /** @class */ (function () {
-    function MainComponent(todoService, appUser, user, router, taskClass, cookie) {
+    function MainComponent(todoService, appUser, user, router, taskClass, cookie, location) {
         this.todoService = todoService;
         this.appUser = appUser;
         this.user = user;
         this.router = router;
         this.taskClass = taskClass;
         this.cookie = cookie;
+        this.location = location;
+        this.taskId = null;
         this.todos = [];
         this.checkIcon = 'http://todolist-todolist.7e14.starter-us-west-2.openshiftapps.com/media/check.png';
         this.expiredValue = new Date();
+        this.viewTask = false;
         if (this.cookie.get('isAuthorized') === 'true') {
             this.appUser.getCurrentUser();
-            this.cookie.delete('ti');
             this.appUser.setLoggedIn(true);
             this.todoService.myToken = this.appUser.getCurrentToken();
             this.appUser.myToken = this.appUser.getCurrentToken();
+            if (this.cookie.get('taskview') === 'true')
+                this.viewTask = true;
             if (this.cookie.get('isSuper') === 'true')
                 this.user.isSuperuser = true;
             else
@@ -594,9 +603,7 @@ var MainComponent = /** @class */ (function () {
             this.router.navigate(['']);
         }
     }
-    MainComponent.prototype.ngOnInit = function () {
-        this.getTodos();
-    };
+    MainComponent.prototype.ngOnInit = function () { };
     MainComponent.prototype.editTodo = function (todo) {
         todo.editing = true;
     };
@@ -622,13 +629,16 @@ var MainComponent = /** @class */ (function () {
         this.todoService.getTodo(todo.id).subscribe(function (data) {
             _this.selectedTodo = data;
             _this.taskClass.id = data.id;
+            _this.viewTask = true;
             _this.appUser.getUsername(_this.selectedTodo.user)
                 .subscribe(function (data) {
                 _this.username = data[0].username.toString();
             });
             _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
-            _this.cookie.set('ti', _this.appUser.encryptData(data.id), _this.expiredValue);
-            _this.router.navigate(['/main/tasks', todo.id]);
+            _this.cookie.set('ti', _this.appUser.encryptData(data.id), _this.expiredValue, '/');
+            _this.cookie.set('taskview', 'true', _this.expiredValue, '/');
+            _this.location.go('/main/tasks/' + todo.id + '/');
+            // this.router.navigate(['/main/tasks', todo.id]);
         }, function (error) {
             console.log(error);
         });
@@ -685,13 +695,16 @@ var MainComponent = /** @class */ (function () {
         });
     };
     MainComponent.prototype.logout = function () {
-        this.router.navigate(['']);
-        this.cookie.delete('isAuthorized');
-        this.cookie.delete('ui');
-        this.cookie.delete('isSuper');
-        this.cookie.delete('ti');
-        this.cookie.delete('5Es85xcdwda65sd12sdsaasdascxa654564982xc21');
         this.appUser.setLoggedIn(false);
+        this.cookie.deleteAll('/');
+        this.router.navigate(['']);
+    };
+    MainComponent.prototype.closeView = function () {
+        this.cookie.delete('ti', '/');
+        this.cookie.delete('taskview', '/');
+        this.viewTask = false;
+        this.location.go('/main/');
+        this.getTodos();
     };
     MainComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -704,7 +717,8 @@ var MainComponent = /** @class */ (function () {
             _user__WEBPACK_IMPORTED_MODULE_3__["User"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
             _task__WEBPACK_IMPORTED_MODULE_6__["Task"],
-            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"]])
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_8__["Location"]])
     ], MainComponent);
     return MainComponent;
 }());
@@ -1045,7 +1059,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"selectedTask.taskImage != null\" \n            [src]=\"selectedTask.taskImage\">\n\n</div>\n\n<div *ngIf=\"delete\" class=\"delete-alert\" >\n    <p>Do you want to delete this image?</p>\n    <div class=\"buttons\">\n    <button (click)= selectedYes()>Yes</button>\n    <button (click)=\"selectedNo()\">No</button>\n    </div>\n</div>\n\n<section class=\"todoapp\" *ngIf=\"isLoaded\">\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n    <div class=\"task\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\">\n        <p *ngIf=\"errorImage\" style=\"color: red; font-weight: bolder;\">\n            One or more files is not an image file, please re-upload!</p>\n        <p *ngIf=\"errorLength\" style=\"color: red; font-weight: bolder;\">\n            Please re-upload one or more valid file!</p>\n        <h1 class=\"title\" (click)=\"editTitle()\" [class.editing]=\"editing\">\n            {{task?.title}}\n        </h1>\n        <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                (keyup.escape)=\"cancelEditing()\"></h1>\n        <h5>Task ID: {{task?.id}}<br> \n            Created by {{task?.username}}<br>\n            Complete status: {{task?.status}}\n        </h5>\n        <div class=\"image-field\" *ngFor=\"let taskImage of taskImages\">\n                \n            <img (click)=\"enlargeImage(taskImage)\" *ngIf=\"taskImage.taskImage != null\" \n                [src]=\"taskImage.taskImage\" />\n            <span (click)=\"deleteImage(taskImage)\" class=\"delete\">&times;</span>\n        </div>\n    </div>\n\n</section>\n"
+module.exports = "<div *ngIf=\"!isLoaded\">\n    <p>Error occured, please go back!</p>\n    <button class=\"task-button\" (click)=\"goBack()\">Go Back</button>\n</div>\n<div  *ngIf=\"enlarge\" class=\"modal\">\n        \n        <span (click)=\"closeEnlarge()\" class=\"close\">&times;</span>\n\n        <img class=\"modal-content\" *ngIf=\"selectedTask.taskImage != null\" \n            [src]=\"selectedTask.taskImage\">\n\n</div>\n\n<div *ngIf=\"delete\" class=\"delete-alert\" >\n    <p>Do you want to delete this image?</p>\n    <div class=\"buttons\">\n    <button (click)= selectedYes()>Yes</button>\n    <button (click)=\"selectedNo()\">No</button>\n    </div>\n</div>\n\n<section class=\"task-app\" *ngIf=\"isLoaded\" (dragenter)=\"fileOver($event);\">\n    <div class = \"drag-in\" *ngIf=\"in\" (drop)=\"dropped($event);\" (dragover)=\"fileOver($event);\" (dragleave) = \"fileLeave($event);\">Drop file to upload!</div>\n    <button class=\"task-button\" (click)=\"goBack()\">Close</button>\n    <div class=\"task\">\n        <div class=\"task-info\">\n            <p *ngIf=\"errorImage\" style=\"color: red; font-weight: bolder;\">\n                One or more files is not an image file, please re-upload!</p>\n            <p *ngIf=\"errorLength\" style=\"color: red; font-weight: bolder;\">\n                Please re-upload one or more valid file!</p>\n            <h1 class=\"title\" (click)=\"editTitle()\" [class.editing]=\"editing\">\n                {{task?.title}}\n            </h1>\n            <h1><input class=\"edit\" *ngIf=\"editing\" [value]=\"task.title\" \n                    #editedTodo (blur)=\"updateTodo(task, editedTodo.value)\" \n                    (keyup.enter)=\"updateTodo(task, editedTodo.value)\" \n                    (keyup.escape)=\"cancelEditing()\"></h1>\n            <h5>Task ID: {{task?.id}}<br> \n                Created by {{task?.username}}<br>\n                Complete status: {{task?.status}}\n            </h5>\n        </div>\n        <div class=\"image-field\">\n            <div *ngFor=\"let taskImage of taskImages\">          \n                <img (click)=\"enlargeImage(taskImage)\" *ngIf=\"taskImage.taskImage != null\" \n                    [src]=\"taskImage.taskImage\" />\n                <span (click)=\"deleteImage(taskImage)\" class=\"delete\">&times;</span>\n            </div>\n        </div>\n    </div>\n    \n\n</section>\n"
 
 /***/ }),
 
@@ -1066,6 +1080,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var _main_main_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../main/main.component */ "./src/app/main/main.component.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+
+
 
 
 
@@ -1074,19 +1092,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var TaskComponent = /** @class */ (function () {
-    function TaskComponent(todoService, taskClass, appUser, router, cookie) {
+    function TaskComponent(todoService, taskClass, appUser, router, cookie, main, location) {
         this.todoService = todoService;
         this.taskClass = taskClass;
         this.appUser = appUser;
         this.router = router;
         this.cookie = cookie;
+        this.main = main;
+        this.location = location;
         this.isLoaded = false;
+        this.upload = false;
         this.taskImages = [];
         this.editing = false;
         this.errorImage = false;
         this.errorLength = false;
         this.enlarge = false;
         this.delete = false;
+        this.in = false;
         if (this.cookie.get('isAuthorized') === 'true' && this.cookie.get('ti')) {
             this.taskClass.id = this.appUser.decryptData(this.cookie.get('ti'));
             this.todoService.myToken = this.appUser.getCurrentToken();
@@ -1121,6 +1143,7 @@ var TaskComponent = /** @class */ (function () {
     };
     TaskComponent.prototype.dropped = function (event) {
         event.preventDefault();
+        event.stopPropagation();
         this.files = event.dataTransfer.files;
         if (this.files.length > 0) {
             this.errorLength = false;
@@ -1128,18 +1151,24 @@ var TaskComponent = /** @class */ (function () {
                 var file = _a[_i];
                 if (file.type.includes("image/") == true) {
                     this.errorImage = false;
-                    console.log(this.files);
                     this.uploadImage(file, file.name);
+                    this.upload = true;
+                    this.in = false;
                 }
                 else {
+                    this.upload = false;
                     this.errorImage = true;
                     console.log(this.files);
                 }
             }
+            if (this.upload)
+                alert('Successful uploaded ' + this.files.length + ' image(s)!');
         }
         else {
+            this.upload = false;
             this.errorLength = true;
         }
+        this.in = false;
     };
     TaskComponent.prototype.uploadImage = function (file, path) {
         var _this = this;
@@ -1176,8 +1205,16 @@ var TaskComponent = /** @class */ (function () {
         });
     };
     TaskComponent.prototype.fileOver = function (event) {
-        event.stopPropagation();
         event.preventDefault();
+        event.stopPropagation();
+        if (!this.in)
+            this.in = true;
+    };
+    TaskComponent.prototype.fileLeave = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (this.in)
+            this.in = false;
     };
     TaskComponent.prototype.updateTodo = function (task, editedTitle) {
         var _this = this;
@@ -1196,7 +1233,11 @@ var TaskComponent = /** @class */ (function () {
         }
     };
     TaskComponent.prototype.goBack = function () {
-        this.router.navigate(['main']);
+        this.cookie.delete('ti', '/');
+        this.cookie.delete('taskview', '/');
+        this.location.go('/main/');
+        this.main.viewTask = false;
+        this.main.getTodos();
     };
     TaskComponent.prototype.closeEnlarge = function () {
         this.enlarge = false;
@@ -1224,7 +1265,9 @@ var TaskComponent = /** @class */ (function () {
             _task__WEBPACK_IMPORTED_MODULE_2__["Task"],
             _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
-            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__["CookieService"]])
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__["CookieService"],
+            _main_main_component__WEBPACK_IMPORTED_MODULE_7__["MainComponent"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_8__["Location"]])
     ], TaskComponent);
     return TaskComponent;
 }());
