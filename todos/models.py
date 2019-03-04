@@ -32,6 +32,9 @@ class TaskImage(models.Model):
     task = models.ForeignKey(Todo, on_delete=models.CASCADE)
     taskImage = models.ImageField(upload_to= uploaded_task_image, blank=True, null=True)
 
+    def __str__(self):
+        return self.task.title
+
 class UserInfo(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     dateOfBirth = models.DateField(blank=True, null=True)

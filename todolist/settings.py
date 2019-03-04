@@ -1,5 +1,4 @@
 import os
-import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,6 +28,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
 ]
 
 CORS_ORIGIN_WHITELIST = (
@@ -169,7 +171,4 @@ CACHES = {
         'LOCATION': '127.0.0.1:11211'
     }
 }
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
 

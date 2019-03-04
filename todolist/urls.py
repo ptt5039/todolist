@@ -11,6 +11,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 urlpatterns = [
     path('', include('todos.urls')),
+    path('jet/', include('jet.urls', 'jet')),
+    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api/auth/', ObtainAuthToken.as_view()),

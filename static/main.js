@@ -1166,6 +1166,18 @@ var TaskComponent = /** @class */ (function () {
         }
         this.in = false;
     };
+    TaskComponent.prototype.fileOver = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!this.in)
+            this.in = true;
+    };
+    TaskComponent.prototype.fileLeave = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (this.in)
+            this.in = false;
+    };
     TaskComponent.prototype.uploadImage = function (file, path) {
         var _this = this;
         this.todoService.todoImage(this.taskClass.id, file, path).subscribe(function (data) {
@@ -1199,18 +1211,6 @@ var TaskComponent = /** @class */ (function () {
         }, function (error) {
             console.log(error);
         });
-    };
-    TaskComponent.prototype.fileOver = function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        if (!this.in)
-            this.in = true;
-    };
-    TaskComponent.prototype.fileLeave = function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        if (this.in)
-            this.in = false;
     };
     TaskComponent.prototype.updateTodo = function (task, editedTitle) {
         var _this = this;
