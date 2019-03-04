@@ -17,9 +17,9 @@ class Todo(models.Model):
     is_complete = models.BooleanField(default=False)    
 
     class Meta:
-        default_related_name = 'todos'
-        verbose_name = 'todo'
-        verbose_name_plural = 'todos'
+        default_related_name = 'Tasks'
+        verbose_name = 'Task'
+        verbose_name_plural = 'Tasks'
 
     def __str__(self):
         return self.title
