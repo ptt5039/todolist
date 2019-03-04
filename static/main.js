@@ -447,6 +447,7 @@ var LoginComponent = /** @class */ (function () {
             username: '',
             password: ''
         };
+        this.cookie.delete('csrftoken');
         if (this.cookie.get('isAuthorized') === 'true') {
             this.appUser.setLoggedIn(true);
             this.router.navigate(['main']);
@@ -467,6 +468,7 @@ var LoginComponent = /** @class */ (function () {
     };
     LoginComponent.prototype.onLogin = function () {
         var _this = this;
+        this.cookie.delete('csrftoken');
         this.appUser.loginUser(this.input).subscribe(function (response) {
             _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
             _this.user.username = _this.input.username;

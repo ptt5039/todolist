@@ -50,7 +50,7 @@ class TodoViewSet(viewsets.ModelViewSet):
         newest = self.get_queryset().order_by('id').last()
         serializer = self.get_serializer_class()(newest)
         return Response(serializer.data)
-   
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

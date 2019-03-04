@@ -6,6 +6,7 @@ class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = ('__all__')
+        
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
