@@ -627,19 +627,11 @@ var MainComponent = /** @class */ (function () {
         }
     };
     MainComponent.prototype.todoClicked = function (todo) {
-        var _this = this;
-        this.todoService.getTodo(todo.id).subscribe(function (data) {
-            // this.selectedTodo = data;
-            //   this.taskClass.id = data.id;
-            _this.viewTask = true;
-            _this.expiredValue.setHours(_this.expiredValue.getHours() + 12);
-            _this.cookie.set('ti', _this.appUser.encryptData(data.id), _this.expiredValue, '/');
-            _this.cookie.set('taskview', 'true', _this.expiredValue, '/');
-            _this.location.go('/main/tasks/' + todo.id + '/');
-            // this.router.navigate(['/main/tasks', todo.id]);
-        }, function (error) {
-            console.log(error);
-        });
+        this.viewTask = true;
+        this.expiredValue.setHours(this.expiredValue.getHours() + 12);
+        this.cookie.set('ti', this.appUser.encryptData(todo.id), this.expiredValue, '/');
+        this.cookie.set('taskview', 'true', this.expiredValue, '/');
+        this.location.go('/main/tasks/' + todo.id + '/');
     };
     MainComponent.prototype.toggleCompletion = function (todo) {
         if (todo.is_complete)
