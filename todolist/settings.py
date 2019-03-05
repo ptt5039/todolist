@@ -22,8 +22,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'myitproject.net',
     'todosapplication.herokuapp.com',
-    'https://listtodoapplication.azurewebsites.net',
-    'http://listtodoapplication.azurewebsites.net'
+    'listtodoapplication.azurewebsites.net',
     ]
 
 
