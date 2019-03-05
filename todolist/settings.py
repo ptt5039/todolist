@@ -22,7 +22,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'myitproject.net',
     'todosapplication.herokuapp.com',
-    'listtodoapplication.azurewebsites.net'
+    'https://listtodoapplication.azurewebsites.net',
+    'http://listtodoapplication.azurewebsites.net'
     ]
 
 
@@ -63,6 +64,7 @@ CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:8000',
     'localhost:4200',
     '0.0.0.0:8080',
+    'listtodoapplication.azurewebsites.net'
 )
 
 ROOT_URLCONF = 'todolist.urls'
