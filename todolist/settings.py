@@ -3,7 +3,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUBLIC_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', '..', 'public'))
+    os.path.join(os.path.dirname(__file__), '..', 'public'))
 
 
 # Quick-start development settings - unsuitable for production
