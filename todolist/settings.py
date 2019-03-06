@@ -23,6 +23,7 @@ ALLOWED_HOSTS = [
     'myitproject.net',
     'todosapplication.herokuapp.com',
     'listtodoapplication.azurewebsites.net',
+    'ptt5039.pythonanywhere.com',
     ]
 
 
@@ -63,7 +64,8 @@ CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:8000',
     'localhost:4200',
     '0.0.0.0:8080',
-    'listtodoapplication.azurewebsites.net'
+    'listtodoapplication.azurewebsites.net',
+    'ptt5039.pythonanywhere.com',
 )
 
 ROOT_URLCONF = 'todolist.urls'
